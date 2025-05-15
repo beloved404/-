@@ -6,97 +6,354 @@
   <title>资源目录 - 智慧物联网教学支持平台</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* 加载动画样式 - 保留以便在加载内容时使用 */
+    /* 可以在 style.css 中定义这些，这里为了方便展示 */
+    #no-preview-placeholder {
+      display: flex; /* 初始状态由 main.js 控制显示/隐藏 */
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      height: 100%; /* 填充容器 */
+      color: #6b7280; 
+      background-color: #fff; 
+      border-radius: 8px; 
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
+    }
+    #no-preview-placeholder p {
+        font-size: 1.1rem;
+    }
+    /* 加载动画样式 (如果 style.css 中没有，则需要添加) */
     .loader {
-      border: 5px solid #374151; /* 深色主题下的轨道颜色 */
-      border-top: 5px solid #60a5fa; /* 粒子效果中的浅蓝色 */
+      border: 5px solid #e5e7eb; /* 浅灰色轨道 */
+      border-top: 5px solid #2563eb; /* 蓝色旋转部分 */
       border-radius: 50%;
       width: 40px;
       height: 40px;
       animation: spin 1s linear infinite;
-      margin: 30px auto;
+      margin: 30px auto; /* 上下居中一点 */
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
+    /* 翻页控件样式 (可移至 style.css) - Office Online Viewer不需要这些外部控件 */
+    .slide-controls {
+      /* display: flex; */ /* 已由JS控制隐藏，这里可以注释掉或移除 */
+      justify-content: center;
+      align-items: center;
+      padding: 8px 0;
+      margin-top: 8px; 
+      border-top: 1px solid #e5e7eb; 
+    }
+    .slide-controls button {
+      background-color: #4a5568; 
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      margin: 0 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9em;
+    }
+    .slide-controls button:disabled {
+      background-color: #a0aec0; 
+      cursor: not-allowed;
+    }
+    .slide-info {
+      margin: 0 15px;
+      font-size: 0.9em;
+      color: #4a5568;
+    }
   </style>
 </head>
-<body id="page-nav"> <div id="particles-js-nav"></div>
-
+<body id="page-nav">
   <header><h1>资源目录</h1></header>
-
-  <div class="container flex nav-page-container">
+  <div class="container flex">
     <aside class="aside">
-      <button id="btn-back-home" class="nav-btn special-btn">← 首页</button>
+      <button id="btn-back-home" class="nav-btn">← 首页</button>
       <h2 id="nav-title"></h2>
-      <ul id="sections-list">
-        </ul>
+      <ul id="sections-list"></ul>
     </aside>
-    <div class="flex-1 main-content-area"> <div class="preview-area hidden" id="preview-area">
-        <div class="preview-toolbar">
-          <a id="download-btn" href="#" download class="toolbar-btn download">下载</a>
-          <button id="fullscreen-btn" class="toolbar-btn fullscreen">全屏</button>
+    <div class="flex-1 p-4">
+      <div class="preview-area hidden bg-white rounded-lg shadow h-full" id="preview-area">
+        <div class="preview-toolbar mb-2 p-2">
+          <a id="download-btn" href="#" download class="toolbar-btn">下载</a>
+          <button id="fullscreen-btn" class="toolbar-btn">全屏</button>
         </div>
         <div class="preview-container preview-content" id="preview-content">
             </div>
         <div class="slide-controls hidden" id="slide-navigation-controls">
-            <button id="prev-slide-btn" class="slide-nav-button" title="上一页">‹ 上一页</button>
-            <span id="slide-info" class="slide-info-text">幻灯片 1 / 1</span>
-            <button id="next-slide-btn" class="slide-nav-button" title="下一页">下一页 ›</button>
+            <button id="prev-slide-btn" title="上一页">‹ 上一页</button>
+            <span id="slide-info" class="slide-info">幻灯片 1 / 1</span>
+            <button id="next-slide-btn" title="下一页">下一页 ›</button>
         </div>
       </div>
-      <div id="no-preview-placeholder" class="no-preview-placeholder-styles"> <p>请在左侧选择一个资源进行预览。</p>
+      <div id="no-preview-placeholder">
+        <p>请在左侧选择一个资源进行预览。</p>
       </div>
     </div>
   </div>
-
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script src="main.js" defer></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const particlesNavContainer = document.getElementById('particles-js-nav');
-      if (particlesNavContainer) {
-        particlesJS('particles-js-nav', { // 与首页粒子效果配置保持一致或相似
-          "particles": {
-            "number": {
-              "value": window.innerWidth < 768 ? 30 : 60, 
-              "density": { "enable": true, "value_area": 800 }
-            },
-            "color": { "value": "#ffffff" }, // 与首页粒子颜色一致
-            "shape": { "type": "circle" },
-            "opacity": {
-              "value": 0.5, "random": true,
-              "anim": { "enable": true, "speed": 0.8, "opacity_min": 0.1, "sync": false }
-            },
-            "size": { "value": 3, "random": true },
-            "line_linked": {
-              "enable": true, "distance": window.innerWidth < 768 ? 120 : 150,
-              "color": "#ffffff", "opacity": 0.4, "width": 1
-            },
-            "move": {
-              "enable": true, "speed": 2, "direction": "none", "random": false,
-              "straight": false, "out_mode": "out", "bounce": false
-            }
-          },
-          "interactivity": {
-            "detect_on": "canvas",
-            "events": {
-              "onhover": { "enable": true, "mode": "grab" },
-              "onclick": { "enable": true, "mode": "push" }, 
-              "resize": true
-            },
-            "modes": {
-              "grab": { "distance": window.innerWidth < 768 ? 100 : 140, "line_linked": { "opacity": 1 } },
-              "push": { "particles_nb": 4 } 
-            }
-          },
-          "retina_detect": true
-        });
-      } else {
-        console.warn("Particles container (#particles-js-nav) not found on this page. Particles will not be initialized.");
-      }
-    });
-  </script>
 </body>
 </html>
+```
+**对 `nav.html` 的改动：**
+* 注释掉了（您可以直接删除）指向 `libs/PPTXjs-downloaded/css/pptxjs.css` 的 `<link>` 标签。
+* 注释掉了（您可以直接删除）指向 `libs/PPTXjs-downloaded/js/pptx.js` 的 `<script>` 标签。
+
+**第二步：修改 `main.js` 以正确构造 PPTX 文件 URL**
+
+我们需要调整 `main.js` 中 `fileMap` 的路径定义，并确保 `openPreview` 函数能正确地将这些相对路径转换为部署在 GitHub Pages 上的完整 URL。
+
+
+```javascript
+// 章节与资源配置（包括首页 icon 和简介）
+const chaptersData = {
+  chapter1: {
+    title: '第一章 感知物理世界',
+    icon: '🌐',
+    description: '传感器原理与数据采集',
+    sections: {
+      '1.1': { title: '1.1 传感器技术原理', resources: [{ name: '第一章1.1教学PPT', type: 'pptx' }] },
+      '1.2': { title: '1.2 数据采集与处理', resources: [{ name: '第一章1.2教学PPT', type: 'pptx' }] }
+    }
+  },
+  chapter2: {
+    title: '第二章 物联网系统架构',
+    icon: '📡',
+    description: '通信协议与云平台',
+    sections: {
+      '2.1': { title: '2.1 通信协议与网络拓扑', resources: [{ name: '第二章2.1教学PPT', type: 'pptx' }] },
+      '2.2': { title: '2.2 边缘计算与云平台', resources: [{ name: '第二章2.2教学PPT', type: 'pptx' }] }
+    }
+  },
+  chapter3: {
+    title: '第三章 伦理与社会影响',
+    icon: '⚖️',
+    description: '隐私保护与可持续发展',
+    sections: {
+      '3.1': { title: '3.1 数据隐私与安全', resources: [{ name: '第三章3.1教学PPT', type: 'pptx' }] },
+      '3.2': { title: '3.2 技术应用的可持续发展', resources: [{ name: '第三章3.2教学PPT', type: 'pptx' }] }
+    }
+  }
+};
+
+// 资源名称到文件路径映射
+// **重要修改**: 移除路径开头的 "/" 使其成为相对于当前页面目录的相对路径，
+// 或者更准确地说，相对于站点根目录的路径（如果HTML文件在根目录）。
+// 对于 GitHub Pages (https://username.github.io/repository-name/),
+// "assets/file.pptx" 会被正确解析为 "https://username.github.io/repository-name/assets/file.pptx"
+// 当与 location.href (例如 "https://username.github.io/repository-name/nav.html") 一起使用 new URL() 时。
+const fileMap = {
+  '第一章1.1教学PPT': 'assets/chapter1-1.pptx', // 移除了开头的 "/"
+  '第一章1.2教学PPT': 'assets/chapter1-2.pptx', // 移除了开头的 "/"
+  '第二章2.1教学PPT': 'assets/chapter2-1.pptx', // 移除了开头的 "/"
+  '第二章2.2教学PPT': 'assets/chapter2-2.pptx', // 移除了开头的 "/"
+  '第三章3.1教学PPT': 'assets/chapter3-1.pptx', // 移除了开头的 "/"
+  '第三章3.2教学PPT': 'assets/chapter3-2.pptx'  // 移除了开头的 "/"
+};
+
+// 注意: 以下全局变量和相关函数 (currentSlides, currentSlideIndex)
+// 在当前配置下 (使用Office Online Viewer预览PPTX) 将不会被PPTX类型文件使用。
+let currentSlides = [];
+let currentSlideIndex = 0;
+
+// 初始化页面逻辑
+window.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM fully loaded and parsed.');
+  const page = document.body.id;
+  if (page === 'page-home') {
+    initHome();
+  }
+  if (page === 'page-nav') {
+    initNavPage();
+  }
+});
+
+// 首页初始化
+function initHome() {
+  const container = document.getElementById('home-cards');
+  if (!container) return; 
+  container.innerHTML = '';
+  Object.entries(chaptersData).forEach(([chapId, chap]) => {
+    const btn = document.createElement('button');
+    btn.className = 'card'; 
+    btn.innerHTML = `<div class="icon">${chap.icon}</div><h2>${chap.title}</h2><p>${chap.description}</p>`;
+    btn.onclick = () => location.href = `nav.html?chapter=${chapId}`;
+    container.appendChild(btn);
+  });
+}
+
+// 资源目录页初始化
+function initNavPage() {
+  const params = new URLSearchParams(location.search);
+  const chapId = params.get('chapter');
+
+  if (!chapId || !chaptersData[chapId]) {
+    alert('未找到指定的课程章节，将返回首页。');
+    location.href = 'index.html';
+    return;
+  }
+  const chapter = chaptersData[chapId];
+
+  document.getElementById('nav-title').innerText = chapter.title;
+  const list = document.getElementById('sections-list');
+  list.innerHTML = ''; 
+
+  Object.entries(chapter.sections).forEach(([secId, sec]) => {
+    const li = document.createElement('li');
+    const btn = document.createElement('button');
+    btn.className = 'nav-btn'; 
+    btn.innerText = sec.title;
+    btn.onclick = () => toggleSection(li, sec);
+    li.appendChild(btn);
+
+    const drop = document.createElement('div');
+    drop.className = 'section-resources hidden'; 
+    li.appendChild(drop);
+    list.appendChild(li);
+  });
+
+  document.getElementById('btn-back-home').onclick = () => location.href = 'index.html';
+
+  const initialPreviewArea = document.getElementById('preview-area');
+  const initialPlaceholder = document.getElementById('no-preview-placeholder');
+  const slideControls = document.getElementById('slide-navigation-controls');
+
+  if (initialPreviewArea && initialPlaceholder && slideControls) {
+      initialPreviewArea.classList.add('hidden');
+      initialPlaceholder.classList.remove('hidden');
+      slideControls.classList.add('hidden'); 
+  }
+
+  const fullscreenBtn = document.getElementById('fullscreen-btn');
+  if (fullscreenBtn) {
+    fullscreenBtn.onclick = () => {
+      const el = document.getElementById('preview-content');
+      const iframe = el.querySelector('iframe'); 
+      if (iframe && iframe.requestFullscreen) {
+        iframe.requestFullscreen().catch(err => alert(`iframe 全屏失败: ${err.message}`));
+      } else if (el && el.requestFullscreen) { 
+        el.requestFullscreen().catch(err => alert(`无法进入全屏模式: ${err.message}`));
+      } 
+      else if (el && el.webkitRequestFullscreen) { /* Safari */
+        el.webkitRequestFullscreen();
+      } else if (el && el.msRequestFullscreen) { /* IE11 */
+        el.msRequestFullscreen();
+      }
+      else {
+        alert('您的浏览器不支持全屏 API 或无法全屏此内容。');
+      }
+    };
+  }
+}
+
+// 手风琴切换
+function toggleSection(li, section) {
+  document.querySelectorAll('#sections-list .section-resources').forEach(div => {
+    if (div !== li.querySelector('.section-resources')) { 
+        div.classList.add('hidden');
+    }
+  });
+  const drop = li.querySelector('.section-resources');
+  const isHidden = drop.classList.contains('hidden');
+
+  if (isHidden) {
+    drop.innerHTML = '';
+    section.resources.forEach(resource => { 
+      const card = document.createElement('div');
+      card.className = 'res-card';
+      card.innerHTML = `<div class="res-icon">📊</div><div class="res-name">${resource.name}</div>`;
+      card.onclick = (event) => {
+        event.stopPropagation();
+        openPreview(resource.name, resource.type); 
+      };
+      drop.appendChild(card);
+    });
+    drop.classList.remove('hidden');
+  } else {
+    drop.classList.add('hidden');
+  }
+}
+
+// 打开预览 (使用Office Online Viewer)
+function openPreview(resourceName, resourceType) {
+  const filePath = fileMap[resourceName]; // 例如: assets/chapter1-1.pptx (无前导斜杠)
+  const previewArea = document.getElementById('preview-area');
+  const contentDiv = document.getElementById('preview-content');
+  const downloadBtn = document.getElementById('download-btn');
+  const placeholder = document.getElementById('no-preview-placeholder');
+  const slideControls = document.getElementById('slide-navigation-controls'); 
+
+  if (!filePath) {
+    if (previewArea) previewArea.classList.add('hidden');
+    if (placeholder) placeholder.classList.remove('hidden');
+    if (slideControls) slideControls.classList.add('hidden'); 
+    alert('资源文件未找到！请在 fileMap 中正确配置。');
+    return;
+  }
+
+  if (!contentDiv || !downloadBtn || !previewArea || !placeholder || !slideControls) {
+    console.error("一个或多个预览相关的 DOM 元素未在 nav.html 中定义。");
+    return;
+  }
+
+  previewArea.classList.remove('hidden');
+  placeholder.classList.add('hidden');
+  // 对于下载，如果 filePath 是相对路径，浏览器会相对于当前页面解析它。
+  // 为了确保下载链接总是相对于站点根目录，可以像构造预览URL一样构造它。
+  const downloadUrl = new URL(filePath, location.href).href;
+  downloadBtn.href = downloadUrl; 
+  
+  slideControls.classList.add('hidden');
+  contentDiv.innerHTML = '<div class="loader"></div><p style="text-align:center; color:#6b7280;">正在加载预览...</p>';
+
+
+  if (resourceType === 'pptx') {
+    // 使用 Microsoft Office Online Viewer
+    // 构造指向部署后文件的完整、公开可访问的 URL
+    // location.href 是当前页面的完整URL, filePath 是相对于站点根的路径 (如 assets/file.pptx)
+    // new URL(filePath, location.href).href 会正确解析出完整路径
+    // 例如: filePath = "assets/doc.pptx", location.href = "https://user.github.io/repo/nav.html"
+    // resolvedFileUrl 将是 "https://user.github.io/repo/assets/doc.pptx"
+    const resolvedFileUrl = new URL(filePath, location.href).href;
+    console.log("Office Viewer attempting to load:", resolvedFileUrl); // 调试信息
+    
+    const encodedUrl = encodeURIComponent(resolvedFileUrl);
+    
+    contentDiv.innerHTML = `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodedUrl}" frameborder="0" style="width:100%;height:100%;"></iframe>`;
+    
+    const iframe = contentDiv.querySelector('iframe');
+    if (iframe) {
+      iframe.onload = () => {
+        console.log('Office Online Viewer iframe loaded successfully for:', resolvedFileUrl);
+      };
+      iframe.onerror = () => {
+        console.error('Office Online Viewer iframe failed to load for:', resolvedFileUrl);
+        contentDiv.innerHTML = `<div style="padding:20px; text-align:center; color:red;"><h3 style="font-weight:bold;">在线预览失败</h3><p>无法加载 Office Online Viewer。请检查以下几点：</p><ul style="text-align:left; display:inline-block; margin-top:10px;"><li>确保您的网站已成功部署到 GitHub Pages。</li><li>确认PPTX文件 (路径: ${filePath}) 已正确上传到 GitHub 仓库的相应位置 (例如，在 'assets' 文件夹下)。</li><li>检查浏览器控制台是否有其他网络错误或CSP（内容安全策略）相关的错误。</li><li>直接在浏览器新标签页中尝试访问以下链接，看是否能下载或显示文件：<br><a href="${resolvedFileUrl}" target="_blank">${resolvedFileUrl}</a></li><li>有时，网络问题或 Office Online Viewer 服务本身也可能导致加载失败。</li></ul><p style="margin-top:10px;">您也可以尝试使用“下载”按钮在本地查看文件。</p></div>`;
+      };
+    }
+  } else {
+    contentDiv.innerHTML = `<p style="padding:20px; text-align:center;">不支持预览此文件类型 (${resourceType})。</p>`;
+  }
+}
+```
+**对 `main.js` 的关键改动：**
+* **`fileMap` 中的路径**：所有路径开头的 `/` 都被移除了。例如，`'/assets/chapter1-1.pptx'` 变成了 `'assets/chapter1-1.pptx'`。
+* **`downloadBtn.href` 更新**：为了确保下载链接在任何页面深度下都能正确工作，也使用了 `new URL(filePath, location.href).href` 来构造。
+* **`openPreview` 函数中 `resolvedFileUrl` 的构造**：`new URL(filePath, location.href).href` 现在应该能正确工作了，因为 `filePath` (如 `assets/chapter1-1.pptx`) 会被解析为相对于当前页面的 URL (`location.href`)。如果您的 HTML 文件（如 `nav.html`）都位于 GitHub Pages 仓库的根目录下，这将正确地形成 `https://your-username.github.io/your-repo-name/assets/chapter1-1.pptx` 这样的 URL。
+* **错误提示增强**：在 `iframe.onerror` 中，添加了让用户直接点击 `resolvedFileUrl` 进行测试的链接。
+
+**请您执行以下操作：**
+
+1.  将您右侧打开的 `main.js` 文件替换为上面提供的最新版本。
+2.  将您右侧打开的 `nav.html` 文件也更新为上面提供的最新版本（主要是移除旧的 PPTX.js 链接）。
+3.  将这些更改推送到您的 GitHub 仓库。
+4.  等待 GitHub Pages 完成部署（几分钟）。
+5.  **清除浏览器缓存**，然后重新访问您部署的网站 (`https://beloved404.github.io/website/nav.html`)。
+6.  尝试预览一个 PPTX 文件，并密切关注浏览器开发者工具的 **Console (控制台)**：
+    * 查看 "Office Viewer attempting to load:" 后面打印的 URL 是否是 `https://beloved404.github.io/website/assets/您的文件名.pptx` 的形式。
+    * 如果仍然失败，请点击错误信息中提供的直接访问该文件的链接，看看会发生什么。
+
+如果这次修改后，控制台打印的 `resolvedFileUrl` 是正确的（包含了 `/website/`），并且您直接访问这个 URL 能够下载或看到 PPTX 文件（而不是 GitHub 的 404 页面），那么 Office Online Viewer 应该就能正常工作了。如果直接访问 `resolvedFileUrl` 仍然是 404，则问题在于文件没有在 GitHub Pages 的那个确切路
