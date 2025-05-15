@@ -1,0 +1,297 @@
+/* 全局重置和通用布局 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  #sections-list {
+    list-style: none; /* 保持原样，如果需要 disc，可改为 list-style: disc inside; */
+    padding-left: 0;
+  }
+  button, a {
+    cursor: pointer;
+    text-decoration: none;
+    background: none;
+    border: none;
+    font: inherit;
+    color: inherit; /* 继承父元素颜色，除非特别指定 */
+  }
+  .container {
+    max-width: 1024px; /* PC端容器最大宽度 */
+    /* 对于移动端，考虑 width: 100%; padding: 1rem; */
+    margin: 0 auto;
+    padding: 2rem; /* 上下文边距 */
+  }
+  .flex {
+    display: flex;
+  }
+  .flex-1 {
+    flex: 1;
+  }
+  .hidden {
+    display: none !important; /* 确保 hidden 优先级 */
+  }
+  
+  /* 标题 */
+  header {
+    background: #fff; /* 白色背景 */
+    padding: 1rem 2rem; /* 内边距 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 底部阴影 */
+    /* position: sticky; top: 0; z-index: 100; /* 可选：固定头部 */
+  }
+  header h1 {
+    font-size: 1.75rem; /* 字体大小 */
+    color: #1e3a8a; /* 品牌蓝色 */
+  }
+  
+  /* 首页 CSS */
+  .intro-section { /* 教材简介区域样式 */
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background-color: #f9fafb; /* 浅灰色背景 */
+    border-radius: 8px;
+  }
+  .intro-section h2 {
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin-bottom: 0.75rem;
+  }
+  .intro-section p {
+    font-size: 1rem;
+    color: #4b5563;
+    line-height: 1.6;
+  }
+  
+  .grid.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); /* 响应式卡片列 */
+    gap: 1.5rem; /* 卡片间距 */
+    margin-top: 1.5rem;
+  }
+  .card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 12px; /* 圆角 */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* 轻微阴影 */
+    text-align: center;
+    transition: transform .3s, box-shadow .3s; /* 平滑过渡 */
+  }
+  .card:hover {
+    transform: translateY(-6px); /* 悬浮时上移 */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1); /* 悬浮时阴影加深 */
+  }
+  .card .icon {
+    font-size: 3rem; /* 图标大小 */
+    color: #2563eb; /* 图标颜色 */
+    margin-bottom: .75rem;
+  }
+  .card h2 {
+    font-size: 1.25rem;
+    color: #1f2937; /* 深灰色文字 */
+    margin-bottom: .5rem;
+  }
+  .card p {
+    font-size: .9rem;
+    color: #6b7280; /* 中灰色文字 */
+  }
+  .team-footer {
+    text-align: center;
+    color: #6b7280;
+    font-size: .85rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb; /* 顶部细线 */
+  }
+  
+  /* 侧边栏和手风琴 */
+  .aside {
+    width: 280px; /* 固定宽度或百分比 width: calc(30% - 1rem); */
+    margin-right: 1rem; /* 与右侧预览区域的间距 */
+    background: #fff;
+    border-right: 1px solid #e5e7eb; /* 右边框线 */
+    padding: 1rem;
+    overflow-y: auto; /* 内容过多时允许滚动 */
+    height: calc(100vh - 4rem - 3.5rem); /* 假设 header 高度约 3.5rem, container padding 2rem*2 */
+    /* 确保高度计算正确，或者使用 flex 布局来撑满 */
+  }
+  .nav-btn { /* 用于侧边栏按钮，例如章节标题 */
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: .75rem 1rem; /* 增加内边距 */
+    margin-bottom: 0.25rem; /* 按钮间距 */
+    color: #374151;
+    font-size: .95rem;
+    border-radius: 6px; /* 圆角 */
+    transition: color .2s, background-color .2s;
+  }
+  .nav-btn:hover {
+    color: #1d4ed8; /* 悬浮时文字颜色 */
+    background-color: #eef2ff; /* 悬浮时背景色 */
+  }
+  button#btn-back-home.nav-btn { /* 返回首页按钮特别样式 */
+      background-color: #2563eb;
+      color: white;
+      font-weight: 500;
+  }
+  button#btn-back-home.nav-btn:hover {
+      background-color: #1d4ed8;
+  }
+  
+  .aside h2#nav-title { /* 章节大标题 */
+    margin: 1rem 0 .5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e5e7eb;
+    font-size: 1.125rem;
+    color: #1f2937;
+  }
+  #sections-list { /* 章节内小节列表 */
+    list-style: none; /* 移除默认列表样式 */
+    /* 原为 list-style: inside disc; */
+  }
+  .section-resources { /* 小节下的资源列表容器 */
+    margin-top: .5rem;
+    padding-left: 1rem; /* 左侧内边距，形成层级感 */
+    border-left: 2px solid #d1d5db; /* 左侧指示线 */
+  }
+  
+  /* 资源卡片 */
+  .res-card {
+    background: #fff;
+    padding: 0.75rem 1rem; /* 调整内边距 */
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* 更轻的阴影 */
+    transition: background-color .2s, box-shadow .2s;
+    margin-bottom: .5rem; /* 卡片间距 */
+    border: 1px solid #e5e7eb;
+  }
+  .res-card:hover {
+    background: #eef2ff; /* 悬浮背景色 */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+  .res-icon {
+    font-size: 1.5rem;
+    color: #2563eb;
+  }
+  .res-name {
+    flex: 1;
+    color: #1f2937;
+    font-weight: 500;
+  }
+  
+  /* 预览区域 */
+  .preview-area { /* 包裹工具栏和内容区域的容器 */
+    flex: 1;
+    /* margin: 0.5rem; /* 原有边距，若 .flex-1.p-4 已提供则可移除 */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 4rem - 3.5rem - 1rem); /* 减去header, container padding, p-4自身的padding */
+    /* 确保高度计算正确，或依赖父级 flex 容器的分配 */
+    /* h-full class from nav.html also attempts this */
+  }
+  .preview-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: .75rem 1rem; /* 工具栏内边距 */
+    border-bottom: 1px solid #e5e7eb; /* 底部边框线 */
+    background-color: #f9fafb; /* 工具栏背景色 */
+    border-top-left-radius: 8px; /* 配合父容器圆角 */
+    border-top-right-radius: 8px;
+  }
+  .toolbar-btn {
+    margin-left: .75rem; /* 按钮间距 */
+    padding: .5rem 1rem;
+    border-radius: 6px;
+    background: #2563eb; /* 按钮背景色 */
+    color: white; /* 按钮文字颜色 */
+    font-size: 0.875rem;
+    font-weight: 500;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    transition: background-color .2s;
+  }
+  .toolbar-btn:hover {
+    background: #1d4ed8; /* 按钮悬浮背景色 */
+  }
+  a#download-btn.toolbar-btn { /* 下载按钮特定样式 */
+      background-color: #16a34a; /* 绿色 */
+  }
+  a#download-btn.toolbar-btn:hover {
+      background-color: #15803d;
+  }
+  
+  .preview-container { /* 即 #preview-content，PPTX幻灯片的直接父容器 */
+    flex: 1; /* 占据剩余空间 */
+    overflow-y: auto; /* 允许内容垂直滚动！重要！ */
+    padding: 0.5rem; /* 内容区域内边距 */
+    background-color: #f3f4f6; /* 内容区域背景色，区别于工具栏 */
+  }
+  /* 针对PPTX.js生成的幻灯片容器的样式 */
+  .pptx-slide-container {
+    margin: 0 auto 15px auto; /* 上下左右居中，底部留边距 */
+    padding: 10px; /* 给幻灯片本身一点内边距，如果需要的话 */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* 更明显的阴影 */
+    background-color: white; /* 确保幻灯片背景是白色 */
+    max-width: 100%; /* 幻灯片宽度不超过容器 */
+    border: 1px solid #ddd; /* 幻灯片边框 */
+  }
+  /* 确保幻灯片内的图片响应式 */
+  .pptx-slide-container img {
+    max-width: 100%;
+    height: auto !important; /* 覆盖PPTX.js可能设置的内联高度 */
+    display: block; /* 消除图片底部空白 */
+  }
+  
+  /* 加载动画 */
+  .loader {
+    border: 5px solid #e5e7eb; /* 浅灰色轨道 */
+    border-top: 5px solid #2563eb; /* 蓝色旋转部分 */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 30px auto; /* 上下居中一点 */
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* 用于nav.html中当没有预览时的占位符 */
+  #no-preview-placeholder {
+      /* 样式已通过 nav.html 中的 <style> 标签或 JS 控制 */
+      /* 如果需要更多样式，可以在这里添加 */
+      font-size: 1.1rem;
+      color: #6b7280;
+  }
+  
+  /* 响应式调整 */
+  @media (max-width: 768px) {
+    .container.flex {
+      flex-direction: column; /* 在小屏幕上堆叠侧边栏和主内容 */
+    }
+    .aside {
+      width: 100%; /* 侧边栏占满宽度 */
+      margin-right: 0;
+      margin-bottom: 1rem; /* 与下方内容间距 */
+      height: auto; /* 高度自动 */
+      max-height: 40vh; /* 限制最大高度，允许滚动 */
+    }
+    .preview-area {
+      height: auto; /* 高度自动，由内容撑开 */
+      min-height: 50vh; /* 保证预览区有一定高度 */
+    }
+    header h1 {
+      font-size: 1.5rem;
+    }
+    .grid.cards {
+      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+    }
+  }
+  
