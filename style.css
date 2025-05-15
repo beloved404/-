@@ -1,297 +1,392 @@
-/* 全局重置和通用布局 */
+/* 全局重置和基础设置 */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  #sections-list {
-    list-style: none; /* 保持原样，如果需要 disc，可改为 list-style: disc inside; */
-    padding-left: 0;
-  }
-  button, a {
-    cursor: pointer;
-    text-decoration: none;
-    background: none;
-    border: none;
-    font: inherit;
-    color: inherit; /* 继承父元素颜色，除非特别指定 */
-  }
-  .container {
-    max-width: 1024px; /* PC端容器最大宽度 */
-    /* 对于移动端，考虑 width: 100%; padding: 1rem; */
-    margin: 0 auto;
-    padding: 2rem; /* 上下文边距 */
-  }
-  .flex {
-    display: flex;
-  }
-  .flex-1 {
-    flex: 1;
-  }
-  .hidden {
-    display: none !important; /* 确保 hidden 优先级 */
-  }
-  
-  /* 标题 */
-  header {
-    background: #fff; /* 白色背景 */
-    padding: 1rem 2rem; /* 内边距 */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 底部阴影 */
-    /* position: sticky; top: 0; z-index: 100; /* 可选：固定头部 */
-  }
-  header h1 {
-    font-size: 1.75rem; /* 字体大小 */
-    color: #1e3a8a; /* 品牌蓝色 */
-  }
-  
-  /* 首页 CSS */
-  .intro-section { /* 教材简介区域样式 */
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background-color: #f9fafb; /* 浅灰色背景 */
-    border-radius: 8px;
-  }
-  .intro-section h2 {
-    font-size: 1.5rem;
-    color: #1f2937;
-    margin-bottom: 0.75rem;
-  }
-  .intro-section p {
-    font-size: 1rem;
-    color: #4b5563;
-    line-height: 1.6;
-  }
-  
-  .grid.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); /* 响应式卡片列 */
-    gap: 1.5rem; /* 卡片间距 */
-    margin-top: 1.5rem;
-  }
-  .card {
-    background: #fff;
-    padding: 1.5rem;
-    border-radius: 12px; /* 圆角 */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05); /* 轻微阴影 */
-    text-align: center;
-    transition: transform .3s, box-shadow .3s; /* 平滑过渡 */
-  }
-  .card:hover {
-    transform: translateY(-6px); /* 悬浮时上移 */
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1); /* 悬浮时阴影加深 */
-  }
-  .card .icon {
-    font-size: 3rem; /* 图标大小 */
-    color: #2563eb; /* 图标颜色 */
-    margin-bottom: .75rem;
-  }
-  .card h2 {
-    font-size: 1.25rem;
-    color: #1f2937; /* 深灰色文字 */
-    margin-bottom: .5rem;
-  }
-  .card p {
-    font-size: .9rem;
-    color: #6b7280; /* 中灰色文字 */
-  }
-  .team-footer {
-    text-align: center;
-    color: #6b7280;
-    font-size: .85rem;
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid #e5e7eb; /* 顶部细线 */
-  }
-  
-  /* 侧边栏和手风琴 */
-  .aside {
-    width: 280px; /* 固定宽度或百分比 width: calc(30% - 1rem); */
-    margin-right: 1rem; /* 与右侧预览区域的间距 */
-    background: #fff;
-    border-right: 1px solid #e5e7eb; /* 右边框线 */
-    padding: 1rem;
-    overflow-y: auto; /* 内容过多时允许滚动 */
-    height: calc(100vh - 4rem - 3.5rem); /* 假设 header 高度约 3.5rem, container padding 2rem*2 */
-    /* 确保高度计算正确，或者使用 flex 布局来撑满 */
-  }
-  .nav-btn { /* 用于侧边栏按钮，例如章节标题 */
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: .75rem 1rem; /* 增加内边距 */
-    margin-bottom: 0.25rem; /* 按钮间距 */
-    color: #374151;
-    font-size: .95rem;
-    border-radius: 6px; /* 圆角 */
-    transition: color .2s, background-color .2s;
-  }
-  .nav-btn:hover {
-    color: #1d4ed8; /* 悬浮时文字颜色 */
-    background-color: #eef2ff; /* 悬浮时背景色 */
-  }
-  button#btn-back-home.nav-btn { /* 返回首页按钮特别样式 */
-      background-color: #2563eb;
-      color: white;
-      font-weight: 500;
-  }
-  button#btn-back-home.nav-btn:hover {
-      background-color: #1d4ed8;
-  }
-  
-  .aside h2#nav-title { /* 章节大标题 */
-    margin: 1rem 0 .5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #e5e7eb;
-    font-size: 1.125rem;
-    color: #1f2937;
-  }
-  #sections-list { /* 章节内小节列表 */
-    list-style: none; /* 移除默认列表样式 */
-    /* 原为 list-style: inside disc; */
-  }
-  .section-resources { /* 小节下的资源列表容器 */
-    margin-top: .5rem;
-    padding-left: 1rem; /* 左侧内边距，形成层级感 */
-    border-left: 2px solid #d1d5db; /* 左侧指示线 */
-  }
-  
-  /* 资源卡片 */
-  .res-card {
-    background: #fff;
-    padding: 0.75rem 1rem; /* 调整内边距 */
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: .75rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05); /* 更轻的阴影 */
-    transition: background-color .2s, box-shadow .2s;
-    margin-bottom: .5rem; /* 卡片间距 */
-    border: 1px solid #e5e7eb;
-  }
-  .res-card:hover {
-    background: #eef2ff; /* 悬浮背景色 */
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  }
-  .res-icon {
-    font-size: 1.5rem;
-    color: #2563eb;
-  }
-  .res-name {
-    flex: 1;
-    color: #1f2937;
-    font-weight: 500;
-  }
-  
-  /* 预览区域 */
-  .preview-area { /* 包裹工具栏和内容区域的容器 */
-    flex: 1;
-    /* margin: 0.5rem; /* 原有边距，若 .flex-1.p-4 已提供则可移除 */
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  height: 100%;
+  font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+  line-height: 1.6;
+  color: #333; /* 默认文字颜色，会被页面特定样式覆盖 */
+}
+a {
+  text-decoration: none;
+  color: #60a5fa; /* 浅蓝色链接，适合深色背景 */
+  transition: color 0.2s ease-in-out;
+}
+a:hover {
+  color: #93c5fd; /* 链接悬浮时更亮 */
+}
+button {
+  cursor: pointer;
+  font: inherit;
+  border: none;
+  background: none;
+  color: inherit; /* 确保按钮文字颜色能被父级控制 */
+}
+ul {
+  list-style: none;
+}
+.container {
+  max-width: 1720px; 
+  margin: 0 auto;
+  padding: 1rem 1.5rem; 
+}
+.flex {
+  display: flex;
+}
+.flex-1 {
+  flex: 1; /* 这个使得右侧内容区能占据剩余空间 */
+}
+.hidden {
+  display: none !important;
+}
+
+/* --- 粒子背景容器样式 (通用) --- */
+#particles-js, 
+#particles-js-nav {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0; 
+  background-color: #0a192f; 
+}
+
+/* --- 页面通用头部样式 --- */
+header {
+  padding: 1rem 1.5rem;
+  position: relative; 
+  z-index: 100; 
+  /* 头部背景和文字颜色将由页面特定样式定义 */
+}
+header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* --- 首页 (page-home) 特定样式 --- */
+body#page-home {
+  overflow-x: hidden; 
+  overflow-y: auto; 
+  color: white; /* 首页整体文字为白色 */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+body#page-home header {
+  background: transparent; 
+  box-shadow: none;
+}
+body#page-home header h1 {
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+body#page-home main.container {
+  flex-grow: 1; 
+  position: relative;
+  z-index: 5; 
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  max-width: 1400px; 
+}
+.intro-section { 
+  margin-bottom: 2.5rem; padding: 2rem;
+  background-color: rgba(20, 30, 48, 0.75); 
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px; backdrop-filter: blur(10px); text-align: center;
+}
+.intro-section h2 { font-size: 1.75rem; color: #e2e8f0; margin-bottom: 1rem; }
+.intro-section p { font-size: 1.1rem; color: #cbd5e0; line-height: 1.7; max-width: 700px; margin: 0 auto; }
+.grid.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; }
+@media (max-width: 992px) { .grid.cards { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); } }
+@media (max-width: 600px) { .grid.cards { grid-template-columns: 1fr; } }
+.card { 
+  background: rgba(30, 41, 59, 0.65); padding: 2rem; border-radius: 12px; 
+  border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(8px);
+  text-align: center; transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; 
+  display: flex; flex-direction: column; align-items: center; justify-content: center; 
+  min-height: 220px; 
+}
+.card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+.card .icon { font-size: 3.5rem; color: #60a5fa; margin-bottom: 1rem; display: block; }
+.card h2 { font-size: 1.4rem; color: #f8fafc; margin-bottom: 0.75rem; font-weight: 500; }
+.card p { font-size: 0.95rem; color: #e2e8f0; }
+.team-footer { text-align: center; color: rgba(255, 255, 255, 0.6); font-size: 0.9rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.15); }
+
+/* --- 内容页 (page-nav) 特定样式 --- */
+body#page-nav {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; 
+  overflow: hidden; 
+  color: #e2e8f0; /* nav页面主要文字颜色改为浅色，以适应深色卡片背景 */
+}
+body#page-nav header { /* nav 页的 header */
+  background: rgba(17, 24, 39, 0.8); /* 深色半透明背景 */
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3); 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+body#page-nav header h1 {
+  color: #f8fafc; /* 头部标题改为白色 */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+body#page-nav .nav-page-container { 
+  display: flex;
+  flex-grow: 1; 
+  overflow: hidden; 
+  padding: 1.5rem; 
+  gap: 1.5rem; 
+  position: relative;
+  z-index: 5; 
+  /* 保证横向flex布局 */
+}
+.aside { /* nav页侧边栏 */
+  /* 修改: 大幅减小侧边栏宽度，为预览区腾出更多空间 */
+  width: 240px; /* 尝试这个值，如果还不够可以再减小，例如 220px */
+  /* 或者使用 flex 比例来控制，例如 flex: 1 0 20%; (占父容器20%) */
+  /* 如果使用 flex 比例，则 .main-content-area 应为 flex: 3 1 0; (占父容器60%或更多) */
+  background: rgba(30, 41, 59, 0.75); 
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  padding: 1.5rem;
+  overflow-y: auto; 
+  flex-shrink: 0; /* 保持固定宽度，不被压缩 */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.aside h2#nav-title { 
+  margin: 0 0 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 1.3rem;
+  color: #f0f9ff; 
+  font-weight: 600;
+}
+.nav-btn { 
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: .9rem 1.1rem; 
+  margin-bottom: 0.5rem; 
+  color: #cbd5e0; 
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px; 
+  transition: all 0.25s ease-in-out;
+}
+.nav-btn:hover {
+  color: #ffffff; 
+  background-color: rgba(255, 255, 255, 0.1); 
+  transform: translateX(4px);
+}
+.nav-btn.special-btn { 
+    background-color: #3b82f6; 
+    color: white;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+.nav-btn.special-btn:hover {
+    background-color: #2563eb;
+}
+#sections-list li .nav-btn.active-section { 
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    font-weight: 700;
+}
+.section-resources { 
+  margin-top: .75rem;
+  padding-left: 0; 
+  border-left: none; 
+}
+.res-card { 
+  background: rgba(45, 55, 72, 0.7); 
+  backdrop-filter: blur(5px);
+  padding: 1.2rem; 
+  border-radius: 10px; 
+  display: flex;
+  flex-direction: column; 
+  align-items: center; 
+  text-align: center;
+  gap: .6rem; 
+  box-shadow: 0 3px 7px rgba(0,0,0,0.15); 
+  transition: all 0.25s ease-in-out;
+  margin-bottom: .8rem; 
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  min-height: 120px; 
+  justify-content: center;
+}
+.res-card:hover {
+  background: rgba(55, 65, 82, 0.85); 
+  box-shadow: 0 5px 12px rgba(0,0,0,0.2);
+  transform: translateY(-3px) scale(1.01);
+}
+.res-icon { 
+  font-size: 2rem; 
+  color: #93c5fd; 
+  margin-bottom: 0.5rem;
+}
+.res-name { 
+  flex: none; 
+  color: #e2e8f0; 
+  font-weight: 500;
+  font-size: 0.9rem; 
+  line-height: 1.3;
+}
+
+.main-content-area { 
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 4rem - 3.5rem - 1rem); /* 减去header, container padding, p-4自身的padding */
-    /* 确保高度计算正确，或依赖父级 flex 容器的分配 */
-    /* h-full class from nav.html also attempts this */
-  }
-  .preview-toolbar {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding: .75rem 1rem; /* 工具栏内边距 */
-    border-bottom: 1px solid #e5e7eb; /* 底部边框线 */
-    background-color: #f9fafb; /* 工具栏背景色 */
-    border-top-left-radius: 8px; /* 配合父容器圆角 */
-    border-top-right-radius: 8px;
-  }
-  .toolbar-btn {
-    margin-left: .75rem; /* 按钮间距 */
-    padding: .5rem 1rem;
+    padding: 0; 
+    height: 100%; 
+    flex: 1; /* 让主内容区自动填充剩余空间 */
+}
+.preview-area { 
+  flex: 1; /* 让预览区自动填充主内容区剩余空间 */
+  background: rgba(30, 41, 59, 0.8); 
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  display: flex; 
+  flex-direction: column; 
+  overflow: hidden; 
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* 移除width相关设置 */
+}
+.preview-toolbar { 
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: .8rem 1.2rem; 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15); 
+  background-color: rgba(17, 24, 39, 0.85); 
+  flex-shrink: 0; 
+}
+.toolbar-btn { 
+  margin-left: .8rem; 
+  padding: .7rem 1.3rem;
+  border-radius: 8px;
+  color: #e2e8f0; 
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: all 0.2s ease-in-out;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(55, 65, 82, 0.7);
+}
+.toolbar-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    background-color: rgba(71, 85, 105, 0.8);
+}
+.toolbar-btn.download {
+  background-color: #38a169; 
+  border-color: #38a169;
+  color: white;
+}
+.toolbar-btn.download:hover {
+  background-color: #2f855a;
+}
+.toolbar-btn.fullscreen {
+  background-color: #4299e1; 
+  border-color: #4299e1;
+  color: white;
+}
+.toolbar-btn.fullscreen:hover {
+  background-color: #2b6cb0;
+}
+.preview-container { 
+  flex: 1; 
+  overflow: hidden; 
+  background-color: #1e293b; 
+}
+.preview-content iframe { 
+  width: 100%;
+  height: 100%;
+  border: none; 
+}
+.no-preview-placeholder-styles { 
+  flex-grow: 1; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(30, 41, 59, 0.75); 
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  color: #cbd5e0; 
+  font-size: 1.25rem;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.slide-controls { 
+    background-color: rgba(17, 24, 39, 0.85);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.75rem;
+    flex-shrink: 0;
+}
+.slide-nav-button { 
+    background-color: #4a5568;
+    color: white;
+    padding: 0.5rem 1rem;
     border-radius: 6px;
-    background: #2563eb; /* 按钮背景色 */
-    color: white; /* 按钮文字颜色 */
-    font-size: 0.875rem;
+    font-size: 0.85rem;
+    margin: 0 0.5rem;
+}
+.slide-nav-button:hover {
+    background-color: #718096;
+}
+.slide-nav-button:disabled {
+    background-color: #2d3748;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+.slide-info-text { 
+    color: #a0aec0;
     font-weight: 500;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    transition: background-color .2s;
-  }
-  .toolbar-btn:hover {
-    background: #1d4ed8; /* 按钮悬浮背景色 */
-  }
-  a#download-btn.toolbar-btn { /* 下载按钮特定样式 */
-      background-color: #16a34a; /* 绿色 */
-  }
-  a#download-btn.toolbar-btn:hover {
-      background-color: #15803d;
-  }
-  
-  .preview-container { /* 即 #preview-content，PPTX幻灯片的直接父容器 */
-    flex: 1; /* 占据剩余空间 */
-    overflow-y: auto; /* 允许内容垂直滚动！重要！ */
-    padding: 0.5rem; /* 内容区域内边距 */
-    background-color: #f3f4f6; /* 内容区域背景色，区别于工具栏 */
-  }
-  /* 针对PPTX.js生成的幻灯片容器的样式 */
-  .pptx-slide-container {
-    margin: 0 auto 15px auto; /* 上下左右居中，底部留边距 */
-    padding: 10px; /* 给幻灯片本身一点内边距，如果需要的话 */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* 更明显的阴影 */
-    background-color: white; /* 确保幻灯片背景是白色 */
-    max-width: 100%; /* 幻灯片宽度不超过容器 */
-    border: 1px solid #ddd; /* 幻灯片边框 */
-  }
-  /* 确保幻灯片内的图片响应式 */
-  .pptx-slide-container img {
-    max-width: 100%;
-    height: auto !important; /* 覆盖PPTX.js可能设置的内联高度 */
-    display: block; /* 消除图片底部空白 */
-  }
-  
-  /* 加载动画 */
-  .loader {
-    border: 5px solid #e5e7eb; /* 浅灰色轨道 */
-    border-top: 5px solid #2563eb; /* 蓝色旋转部分 */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-    margin: 30px auto; /* 上下居中一点 */
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  /* 用于nav.html中当没有预览时的占位符 */
-  #no-preview-placeholder {
-      /* 样式已通过 nav.html 中的 <style> 标签或 JS 控制 */
-      /* 如果需要更多样式，可以在这里添加 */
-      font-size: 1.1rem;
-      color: #6b7280;
-  }
-  
-  /* 响应式调整 */
-  @media (max-width: 768px) {
-    .container.flex {
-      flex-direction: column; /* 在小屏幕上堆叠侧边栏和主内容 */
-    }
-    .aside {
-      width: 100%; /* 侧边栏占满宽度 */
-      margin-right: 0;
-      margin-bottom: 1rem; /* 与下方内容间距 */
-      height: auto; /* 高度自动 */
-      max-height: 40vh; /* 限制最大高度，允许滚动 */
-    }
-    .preview-area {
-      height: auto; /* 高度自动，由内容撑开 */
-      min-height: 50vh; /* 保证预览区有一定高度 */
-    }
-    header h1 {
-      font-size: 1.5rem;
-    }
-    .grid.cards {
-      grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-    }
-  }
-  
+    font-size: 0.9rem;
+}
+
+/* 加载动画 */
+.loader {
+  border: 5px solid #374151; 
+  border-top: 5px solid #60a5fa; 
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 0.8s linear infinite; 
+  margin: 40px auto; 
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 响应式调整 */
+@media (max-width: 1280px) { 
+  .aside { 
+    width: 220px; /* 修改: 在1280px及以下，侧边栏更窄 */
+  } 
+}
+@media (max-width: 1024px) { 
+  .aside { 
+    width: 200px; /* 修改: 在1024px及以下，侧边栏进一步变窄 */
+  } 
+  body#page-home main.container { max-width: 90%; } 
+}
+@media (max-width: 768px) {
+  .container { padding: 0.8rem; }
+  body#page-nav .nav-page-container { flex-direction: column; padding: 0.5rem; gap: 1rem; }
+  .aside { width: 100%; margin-right: 0; margin-bottom: 1rem; max-height: none; padding: 1rem; overflow-y: visible; }
+  .main-content-area { padding: 0; min-height: 60vh; }
+  .preview-area, .no-preview-placeholder-styles { min-height: 60vh; }
+  header h1 { font-size: 1.6rem; }
+  .toolbar-btn { padding: .6rem 1rem; font-size: 0.8rem; }
+}
