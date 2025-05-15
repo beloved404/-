@@ -5,28 +5,162 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>智慧物联网教学支持平台</title>
   <link rel="stylesheet" href="style.css">
-</head>
+  </head>
 <body id="page-home">
+
+  <div id="particles-js"></div>
+
   <header>
     <h1>智慧物联网教学支持平台</h1>
   </header>
   <main class="container">
-    <!-- 教材简介 -->
     <section class="intro-section">
       <h2>教材简介</h2>
-      <p>《智能生活与物联网技术》旨在为读者提供物联网技术的基础知识及其在智能生活中的应用。本书内容分为三个主要章节，每个章节都配有实践项目和案例分析，以增强理解和应用能力</p>
+      <p>《智慧物联网导论》涵盖传感器原理、数据采集、系统架构、边缘计算及伦理社会影响等内容，结合理论与实践，帮助学生掌握物联网核心技术。</p>
     </section>
 
-    <!-- 章节导航卡片 -->
     <section id="home-cards" class="grid cards">
-      <!-- JS 渲染章节卡片 -->
-    </section>
+      </section>
 
-    <!-- 开发团队 -->
     <footer class="team-footer">
-      <p>开发团队：肖冠华、谢锦文、黄劲超、王路华、朱寰宇、张蕊</p>
+      <p>开发团队：谢锦文、黄劲超、王路华、肖冠华、朱霞宇、张蕊</p>
     </footer>
   </main>
+
   <script src="main.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (document.getElementById('particles-js')) {
+        particlesJS('particles-js', {
+          "particles": {
+            "number": {
+              "value": window.innerWidth < 768 ? 30 : 60, // 移动端减少粒子数量
+              "density": {
+                "enable": true,
+                "value_area": 800
+              }
+            },
+            "color": {
+              "value": "#ffffff" // 粒子颜色
+            },
+            "shape": {
+              "type": "circle", // 粒子形状: "circle", "edge", "triangle", "polygon", "star", "image"
+              "stroke": {
+                "width": 0,
+                "color": "#000000"
+              },
+              "polygon": {
+                "nb_sides": 5
+              }
+            },
+            "opacity": {
+              "value": 0.5, // 粒子透明度
+              "random": true,
+              "anim": {
+                "enable": true,
+                "speed": 0.8,
+                "opacity_min": 0.1,
+                "sync": false
+              }
+            },
+            "size": {
+              "value": 3, // 粒子大小
+              "random": true,
+              "anim": {
+                "enable": false,
+                "speed": 40,
+                "size_min": 0.1,
+                "sync": false
+              }
+            },
+            "line_linked": {
+              "enable": true,
+              "distance": window.innerWidth < 768 ? 120 : 150, // 连接线距离
+              "color": "#ffffff",
+              "opacity": 0.4,
+              "width": 1
+            },
+            "move": {
+              "enable": true,
+              "speed": 2, // 粒子移动速度
+              "direction": "none", // 移动方向: "none", "top", "top-right", "right", "bottom-right", "bottom", "bottom-left", "left", "top-left"
+              "random": false,
+              "straight": false,
+              "out_mode": "out", // 移出画布后的行为: "out", "bounce"
+              "bounce": false,
+              "attract": {
+                "enable": false,
+                "rotateX": 600,
+                "rotateY": 1200
+              }
+            }
+          },
+          "interactivity": {
+            "detect_on": "canvas", // 交互区域: "canvas", "window"
+            "events": {
+              "onhover": {
+                "enable": true,
+                "mode": "grab" // 悬停效果: "grab", "bubble", "repulse"
+              },
+              "onclick": {
+                "enable": true,
+                "mode": "push" // 点击效果: "push", "remove", "bubble", "repulse"
+              },
+              "resize": true
+            },
+            "modes": {
+              "grab": {
+                "distance": window.innerWidth < 768 ? 100 : 140,
+                "line_linked": {
+                  "opacity": 1
+                }
+              },
+              "bubble": {
+                "distance": 400,
+                "size": 40,
+                "duration": 2,
+                "opacity": 8,
+                "speed": 3
+              },
+              "repulse": {
+                "distance": 200,
+                "duration": 0.4
+              },
+              "push": {
+                "particles_nb": 4 // 点击时推出的粒子数量
+              },
+              "remove": {
+                "particles_nb": 2
+              }
+            }
+          },
+          "retina_detect": true
+        });
+      } else {
+        console.warn("Particles container (#particles-js) not found on this page. Particles will not be initialized.");
+      }
+
+      // 确保在窗口大小调整时，如果需要，可以重新初始化或调整粒子效果
+      // particles.js 库本身会在 resize 事件中做一些调整，但如果需要更复杂的逻辑，可以在这里添加
+      let resizeTimeoutParticles;
+      window.addEventListener('resize', function() {
+          clearTimeout(resizeTimeoutParticles);
+          resizeTimeoutParticles = setTimeout(function() {
+              if (document.getElementById('particles-js') && window.pJSDom && window.pJSDom.length > 0) {
+                  // 销毁旧的实例 (如果需要完全重新配置)
+                  // window.pJSDom[0].pJS.fn.vendors.destroy();
+                  // initParticles(); // 假设 initParticles 是包含上面 particlesJS 配置的函数
+
+                  // 或者，如果库支持更新，则调用更新方法
+                  // 对于简单的数量和距离调整，上面的配置中已经有基于 window.innerWidth 的判断
+                  // 如果需要更复杂的重新初始化，可以取消注释上面的销毁和重新初始化代码，
+                  // 并将 particlesJS 的配置封装在一个名为 initParticles 的函数中。
+                  // 目前，particles.js 的 resize:true 应该能处理大部分情况。
+              }
+          }, 500);
+      });
+    });
+  </script>
 </body>
 </html>
