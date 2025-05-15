@@ -29,20 +29,18 @@ const chaptersData = {
   }
 };
 
-// 资源名称到文件路径映射
+// 资源名称到文件路径映射 (路径不以 "/" 开头)
 const fileMap = {
-  '第一章1.1教学PPT': '/assets/chapter1-1.pptx',
-  '第一章1.2教学PPT': '/assets/chapter1-2.pptx',
-  '第二章2.1教学PPT': '/assets/chapter2-1.pptx',
-  '第二章2.2教学PPT': '/assets/chapter2-2.pptx',
-  '第三章3.1教学PPT': '/assets/chapter3-1.pptx',
-  '第三章3.2教学PPT': '/assets/chapter3-2.pptx'
+  '第一章1.1教学PPT': 'assets/chapter1-1.pptx',
+  '第一章1.2教学PPT': 'assets/chapter1-2.pptx',
+  '第二章2.1教学PPT': 'assets/chapter2-1.pptx',
+  '第二章2.2教学PPT': 'assets/chapter2-2.pptx',
+  '第三章3.1教学PPT': 'assets/chapter3-1.pptx',
+  '第三章3.2教学PPT': 'assets/chapter3-2.pptx'
 };
 
-// 注意: 以下全局变量和相关函数 (currentSlides, currentSlideIndex)
-// 在当前配置下 (使用Office Online Viewer预览PPTX) 将不会被PPTX类型文件使用。
-let currentSlides = [];
-let currentSlideIndex = 0;
+let currentSlides = []; // 虽然未使用，但保留以备将来扩展
+let currentSlideIndex = 0; // 虽然未使用，但保留
 
 // 初始化页面逻辑
 window.addEventListener('DOMContentLoaded', () => {
@@ -122,7 +120,6 @@ function initNavPage() {
       } else if (el && el.requestFullscreen) { 
         el.requestFullscreen().catch(err => alert(`无法进入全屏模式: ${err.message}`));
       } 
-      // Add other browser prefixes for fullscreen if needed (webkit, ms)
       else if (el && el.webkitRequestFullscreen) { /* Safari */
         el.webkitRequestFullscreen();
       } else if (el && el.msRequestFullscreen) { /* IE11 */
@@ -165,7 +162,7 @@ function toggleSection(li, section) {
 
 // 打开预览 (使用Office Online Viewer)
 function openPreview(resourceName, resourceType) {
-  const filePath = fileMap[resourceName]; // 例如: /assets/chapter1-1.pptx
+  const filePath = fileMap[resourceName]; // 例如: assets/chapter1-1.pptx (无前导斜杠)
   const previewArea = document.getElementById('preview-area');
   const contentDiv = document.getElementById('preview-content');
   const downloadBtn = document.getElementById('download-btn');
@@ -187,22 +184,31 @@ function openPreview(resourceName, resourceType) {
 
   previewArea.classList.remove('hidden');
   placeholder.classList.add('hidden');
-  downloadBtn.href = filePath; // For download, relative path is fine
   
   slideControls.classList.add('hidden');
   contentDiv.innerHTML = '<div class="loader"></div><p style="text-align:center; color:#6b7280;">正在加载预览...</p>';
 
-
   if (resourceType === 'pptx') {
-    // 使用 Microsoft Office Online Viewer
-    // 构造指向部署后文件的完整、公开可访问的 URL
-    // location.href 是当前页面的完整URL, filePath 是根相对路径 (如 /assets/file.pptx)
-    // new URL(filePath, location.href).href 会正确解析出完整路径
-    // 例如: filePath = "/assets/doc.pptx", location.href = "https://user.github.io/repo/nav.html"
-    // resolvedUrl 将是 "https://user.github.io/repo/assets/doc.pptx"
-    const resolvedFileUrl = new URL(filePath, location.href).href;
-    console.log("Office Viewer attempting to load:", resolvedFileUrl); // 调试信息
+    // 调试日志：打印 location 对象的相关属性
+    console.log("Current location.origin:", location.origin);     // 例如: "https://beloved404.github.io"
+    console.log("Current location.pathname:", location.pathname); // 例如: "/website/nav.html"
+    console.log("Current location.href:", location.href);       // 例如: "https://beloved404.github.io/website/nav.html?chapter=..."
+    console.log("filePath from fileMap:", filePath);             // 例如: "assets/chapter2-2.pptx"
+
+    // **方案A: 使用 new URL() (理论上应该能正确工作)**
+    // const resolvedFileUrl = new URL(filePath, location.href).href;
+
+    // **方案B: 尝试更直接地构造 URL (硬编码仓库名)**
+    // 确保这个前缀与您的 GitHub Pages 站点完全匹配
+    const sitePrefix = "https://beloved404.github.io/website/"; 
+    const resolvedFileUrl = sitePrefix + filePath; // filePath 是 'assets/filename.pptx'
+
+    console.log("Office Viewer attempting to load (Using method B):", resolvedFileUrl);
     
+    // 设置下载按钮的链接 (也使用方案B确保一致性)
+    const downloadUrl = sitePrefix + filePath;
+    downloadBtn.href = downloadUrl;
+
     const encodedUrl = encodeURIComponent(resolvedFileUrl);
     
     contentDiv.innerHTML = `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodedUrl}" frameborder="0" style="width:100%;height:100%;"></iframe>`;
@@ -214,7 +220,7 @@ function openPreview(resourceName, resourceType) {
       };
       iframe.onerror = () => {
         console.error('Office Online Viewer iframe failed to load for:', resolvedFileUrl);
-        contentDiv.innerHTML = `<div style="padding:20px; text-align:center; color:red;"><h3 style="font-weight:bold;">在线预览失败</h3><p>无法加载 Office Online Viewer。请检查以下几点：</p><ul style="text-align:left; display:inline-block; margin-top:10px;"><li>确保您的网站已成功部署到 GitHub Pages。</li><li>确认PPTX文件 (路径: ${filePath}) 已正确上传到 GitHub 仓库的相应位置。</li><li>检查浏览器控制台是否有其他网络错误或CSP（内容安全策略）相关的错误。</li><li>有时，网络问题或 Office Online Viewer 服务本身也可能导致加载失败。</li></ul><p style="margin-top:10px;">您也可以尝试使用“下载”按钮在本地查看文件。</p></div>`;
+        contentDiv.innerHTML = `<div style="padding:20px; text-align:center; color:red;"><h3 style="font-weight:bold;">在线预览失败</h3><p>无法加载 Office Online Viewer。请检查以下几点：</p><ul style="text-align:left; display:inline-block; margin-top:10px;"><li>确保您的网站已成功部署到 GitHub Pages。</li><li>确认PPTX文件 (路径: ${filePath}) 已正确上传到 GitHub 仓库的 '${sitePrefix + filePath.substring(0, filePath.lastIndexOf('/')+1)}' 位置。</li><li>检查浏览器控制台是否有其他网络错误或CSP（内容安全策略）相关的错误。</li><li>直接在浏览器新标签页中尝试访问以下链接，看是否能下载或显示文件：<br><a href="${resolvedFileUrl}" target="_blank" style="word-break:break-all;">${resolvedFileUrl}</a></li><li>有时，网络问题或 Office Online Viewer 服务本身也可能导致加载失败。</li></ul><p style="margin-top:10px;">您也可以尝试使用“下载”按钮在本地查看文件。</p></div>`;
       };
     }
   } else {
