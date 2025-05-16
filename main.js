@@ -262,10 +262,13 @@ function openPreview(resourceName, resourceType) {
   
   // Construct absolute file path using the fixed SITE_BASE_URL
   const absoluteFilePath = SITE_BASE_URL + relativeFilePath;
-  console.log("Attempting to load file from absolute path:", absoluteFilePath);
+  console.log("Attempting to load file from absolute path:", absoluteFilePath); // 调试信息
 
-  downloadBtn.href = absoluteFilePath;
-  downloadBtn.download = resourceName; // Suggests the Chinese name for download
+  downloadBtn.href = absoluteFilePath; // 设置实际下载的链接
+
+  // 从 relativeFilePath (例如 'assets/ch22slides.pptx') 中提取文件名 (例如 'ch22slides.pptx')
+  const actualFileName = relativeFilePath.substring(relativeFilePath.lastIndexOf('/') + 1);
+  downloadBtn.download = actualFileName; // 建议浏览器使用此英文名保存文件
 
   if (resourceType === 'pptx' || resourceType === 'xlsx') {
     const encodedUrl = encodeURIComponent(absoluteFilePath);
@@ -317,8 +320,8 @@ function openPreview(resourceName, resourceType) {
         <h3 style="font-weight:bold;">预览提示</h3>
         <p>此文件类型 (${resourceType}) 当前不支持直接在线预览。</p>
         <p style="margin-top:10px;">您可以尝试使用“下载”按钮将文件保存到本地后查看。</p>
-        <p style="margin-top:20px; font-size:0.9em;">文件: <a href="${absoluteFilePath}" target="_blank" download="${resourceName}" style="word-break:break-all;">${resourceName}</a></p>
-    </div>`;
+        <p style="margin-top:20px; font-size:0.9em;">文件: <a href="${absoluteFilePath}" target="_blank" download="${actualFileName}" style="word-break:break-all;">${actualFileName}</a></p> 
+    </div>`; // 也更新了这里的 download 属性
   }
 }
 
