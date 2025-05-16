@@ -50,7 +50,6 @@ const chaptersData = {
       '2.3': {
         title: '2.3 代码示例',
         resources: [
-          // 类型改为 'code'，假设文件是文本格式的代码
           { name: '2.3实验示例程序代码', type: 'code', icon: '💻' }
         ]
       }
@@ -80,30 +79,38 @@ const chaptersData = {
   }
 };
 
-// 资源名称到文件路径映射 (路径不以 "/" 开头，文件名已中文化)
+// CONFIGURATION: Base URL for your site.
+// Set directly to your GitHub Pages URL. Ensure it ends with a slash '/'.
+const SITE_BASE_URL = 'https://beloved404.github.io/website/';
+
+console.log("Using fixed SITE_BASE_URL:", SITE_BASE_URL);
+
+
+// 资源名称到文件路径映射 (路径不以 "/" 开头，文件名已简化为英文，无特殊字符)
+// **重要**: 确保 GitHub 仓库中 `assets` 文件夹下的文件名和路径与此处完全一致 (包括大小写)。
+// GitHub Pages 服务器区分大小写。
 const fileMap = {
-  '第一章1.1教学PPT': 'assets/第一章1.1教学PPT.pptx',
-  '1.1课后习题': 'assets/1.1课后习题.pdf',
-  '第一章1.2教学PPT': 'assets/第一章1.2教学PPT.pptx',
-  '1.2某电商月度平台销售数据': 'assets/1.2某电商月度平台销售数据.xlsx',
-  '1.2课后习题': 'assets/1.2课后习题.pdf',
-  '1.3电路连接示意图': 'assets/1.3电路连接示意图.png',
-  '第二章2.1教学PPT': 'assets/第二章2.1教学PPT.pptx',
-  '2.1课后习题': 'assets/2.1课后习题.pdf',
-  '第二章2.2教学PPT': 'assets/第二章2.2教学PPT.pptx',
-  '2.2课后习题': 'assets/2.2课后习题.pdf',
-  '2.3实验示例程序代码': 'assets/2.3实验示例程序代码.txt', // 假设代码文件为 .txt 格式
-  '第三章3.1教学PPT': 'assets/第三章3.1教学PPT.pptx',
-  '3.1课后习题': 'assets/3.1课后习题.pdf',
-  '第三章3.2教学PPT': 'assets/第三章3.2教学PPT.pptx',
-  '3.2课后习题': 'assets/3.2课后习题.pdf',
-  '3.2智慧城市介绍视频': 'assets/3.2智慧城市介绍视频.mp4'
+  '第一章1.1教学PPT': 'assets/ch11slides.pptx',
+  '1.1课后习题': 'assets/ch11exercises.pdf',
+  '第一章1.2教学PPT': 'assets/ch12slides.pptx',
+  '1.2某电商月度平台销售数据': 'assets/ch12data.xlsx',
+  '1.2课后习题': 'assets/ch12exercises.pdf',
+  '1.3电路连接示意图': 'assets/ch13diagram.png',
+  '第二章2.1教学PPT': 'assets/ch21slides.pptx',
+  '2.1课后习题': 'assets/ch21exercises.pdf',
+  '第二章2.2教学PPT': 'assets/ch22slides.pptx',
+  '2.2课后习题': 'assets/ch22exercises.pdf',
+  '2.3实验示例程序代码': 'assets/ch23code.txt',
+  '第三章3.1教学PPT': 'assets/ch31slides.pptx',
+  '3.1课后习题': 'assets/ch31exercises.pdf',
+  '第三章3.2教学PPT': 'assets/ch32slides.pptx',
+  '3.2课后习题': 'assets/ch32exercises.pdf',
+  '3.2智慧城市介绍视频': 'assets/ch32video.mp4'
 };
 
-let currentSlides = []; // 虽然未使用，但保留以备将来扩展
-let currentSlideIndex = 0; // 虽然未使用，但保留
+let currentSlides = [];
+let currentSlideIndex = 0;
 
-// HTML特殊字符转义函数
 function escapeHtml(unsafe) {
     return unsafe
          .replace(/&/g, "&amp;")
@@ -113,7 +120,6 @@ function escapeHtml(unsafe) {
          .replace(/'/g, "&#039;");
 }
 
-// 初始化页面逻辑
 window.addEventListener('DOMContentLoaded', () => {
   console.log('DOM fully loaded and parsed.');
   const page = document.body.id;
@@ -125,7 +131,6 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// 首页初始化
 function initHome() {
   const container = document.getElementById('home-cards');
   if (!container) return;
@@ -139,7 +144,6 @@ function initHome() {
   });
 }
 
-// 资源目录页初始化
 function initNavPage() {
   const params = new URLSearchParams(location.search);
   const chapId = params.get('chapter');
@@ -187,7 +191,6 @@ function initNavPage() {
     fullscreenBtn.onclick = () => {
       const el = document.getElementById('preview-content');
       const iframe = el.querySelector('iframe');
-      // 优先尝试对iframe内容进行全屏，其次是整个预览区域
       const contentToFullscreen = iframe || el;
 
       if (contentToFullscreen && contentToFullscreen.requestFullscreen) {
@@ -203,7 +206,6 @@ function initNavPage() {
   }
 }
 
-// 手风琴切换
 function toggleSection(li, section) {
   document.querySelectorAll('#sections-list .section-resources').forEach(div => {
     if (div !== li.querySelector('.section-resources')) {
@@ -231,20 +233,19 @@ function toggleSection(li, section) {
   }
 }
 
-// 打开预览
 function openPreview(resourceName, resourceType) {
-  const filePath = fileMap[resourceName];
+  const relativeFilePath = fileMap[resourceName]; 
   const previewArea = document.getElementById('preview-area');
   const contentDiv = document.getElementById('preview-content');
   const downloadBtn = document.getElementById('download-btn');
   const placeholder = document.getElementById('no-preview-placeholder');
-  const slideControls = document.getElementById('slide-navigation-controls'); // 虽然未使用，但保留
+  const slideControls = document.getElementById('slide-navigation-controls');
 
-  if (!filePath) {
+  if (!relativeFilePath) {
     if (previewArea) previewArea.classList.add('hidden');
     if (placeholder) placeholder.classList.remove('hidden');
     if (slideControls) slideControls.classList.add('hidden');
-    showCustomAlert('资源文件未找到！请在 fileMap 中正确配置。');
+    showCustomAlert('资源文件未在 fileMap 中找到配置。');
     return;
   }
 
@@ -255,30 +256,17 @@ function openPreview(resourceName, resourceType) {
 
   previewArea.classList.remove('hidden');
   placeholder.classList.add('hidden');
-  slideControls.classList.add('hidden'); // 默认隐藏幻灯片控件
+  slideControls.classList.add('hidden');
 
   contentDiv.innerHTML = '<div class="loader"></div><p style="text-align:center; color:#6b7280;">正在加载预览...</p>';
-
-  let basePath = '';
-  // 检查是否在 GitHub Pages 环境
-  if (location.hostname.endsWith('github.io')) {
-      // 假设仓库名是 URL path 的第一部分 (例如 beloved404.github.io/website/ -> website)
-      // 如果直接部署在 username.github.io (没有仓库名路径), pathname 可能为 "/" 或 "/index.html"
-      const pathSegments = location.pathname.split('/').filter(segment => segment);
-      const repoName = pathSegments.length > 0 && !pathSegments[0].endsWith('.html') ? pathSegments[0] : '';
-      basePath = repoName ? `${location.origin}/${repoName}/` : `${location.origin}/`;
-  } else {
-      // 本地开发环境或其他部署
-      basePath = `${location.origin}/`; // 对于标准本地服务器
-  }
   
-  const absoluteFilePath = basePath + filePath;
+  // Construct absolute file path using the fixed SITE_BASE_URL
+  const absoluteFilePath = SITE_BASE_URL + relativeFilePath;
   console.log("Attempting to load file from absolute path:", absoluteFilePath);
 
   downloadBtn.href = absoluteFilePath;
-  downloadBtn.download = resourceName; // 建议浏览器使用资源名作为下载文件名
+  downloadBtn.download = resourceName; // Suggests the Chinese name for download
 
-  // PPTX 和 XLSX 使用 Office Online Viewer
   if (resourceType === 'pptx' || resourceType === 'xlsx') {
     const encodedUrl = encodeURIComponent(absoluteFilePath);
     contentDiv.innerHTML = `<iframe src="https://view.officeapps.live.com/op/embed.aspx?src=${encodedUrl}&amp;wdAr=1.7777777777777777" frameborder="0" style="width:100%;height:100%;"></iframe>`;
@@ -289,7 +277,8 @@ function openPreview(resourceName, resourceType) {
       };
       iframe.onerror = () => {
         console.error('Office Online Viewer iframe failed to load for:', absoluteFilePath);
-        contentDiv.innerHTML = `<div style="padding:20px; text-align:center; color:red;"><h3 style="font-weight:bold;">在线预览失败 (${resourceType})</h3><p>无法加载 Office Online Viewer。请检查以下几点：</p><ul style="text-align:left; display:inline-block; margin-top:10px;"><li>确保您的网站已成功部署。</li><li>确认文件 (路径: ${filePath}) 已正确上传到服务器的 '${basePath + filePath.substring(0, filePath.lastIndexOf('/')+1)}' 位置。</li><li>检查浏览器控制台是否有其他网络错误或CSP（内容安全策略）相关的错误。</li><li>直接在浏览器新标签页中尝试访问以下链接，看是否能下载或显示文件：<br><a href="${absoluteFilePath}" target="_blank" style="word-break:break-all;">${absoluteFilePath}</a></li><li>有时，网络问题或 Office Online Viewer 服务本身也可能导致加载失败。</li></ul><p style="margin-top:10px;">您也可以尝试使用“下载”按钮在本地查看文件。</p></div>`;
+        const expectedFolderPath = SITE_BASE_URL + (relativeFilePath.includes('/') ? relativeFilePath.substring(0, relativeFilePath.lastIndexOf('/') + 1) : '');
+        contentDiv.innerHTML = `<div style="padding:20px; text-align:center; color:red;"><h3 style="font-weight:bold;">在线预览失败 (${resourceType})</h3><p>无法加载 Office Online Viewer。请检查以下几点：</p><ul style="text-align:left; display:inline-block; margin-top:10px;"><li>确保您的网站已成功部署，并且 <code>SITE_BASE_URL</code> (当前固定为: <code>${SITE_BASE_URL}</code>) 是正确的。</li><li>确认文件 (相对路径: ${relativeFilePath}) 已正确上传到服务器的 '${expectedFolderPath}' 位置。</li><li>检查浏览器控制台是否有其他网络错误或CSP（内容安全策略）相关的错误。</li><li>直接在浏览器新标签页中尝试访问以下链接，看是否能下载或显示文件：<br><a href="${absoluteFilePath}" target="_blank" style="word-break:break-all;">${absoluteFilePath}</a></li><li>有时，网络问题或 Office Online Viewer 服务本身也可能导致加载失败。</li></ul><p style="margin-top:10px;">您也可以尝试使用“下载”按钮在本地查看文件。</p></div>`;
       };
     }
   } else if (['png', 'jpg', 'jpeg', 'gif', 'bmp', 'svg', 'webp'].includes(resourceType)) {
@@ -298,11 +287,11 @@ function openPreview(resourceName, resourceType) {
     contentDiv.innerHTML = `<iframe src="${absoluteFilePath}" frameborder="0" style="width:100%;height:100%;"></iframe>`;
   } else if (resourceType === 'mp4' || resourceType === 'webm' || resourceType === 'ogv') {
     contentDiv.innerHTML = `<video controls autoplay style="width:100%;height:100%; background-color: #000;"><source src="${absoluteFilePath}" type="video/${resourceType}">您的浏览器不支持视频标签。</video>`;
-  } else if (resourceType === 'code' || filePath.endsWith('.txt')) { // 预览代码或纯文本文件
+  } else if (resourceType === 'code' || relativeFilePath.endsWith('.txt')) {
     fetch(absoluteFilePath)
         .then(response => {
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}, ${response.statusText}`);
+                throw new Error(`HTTP error! status: ${response.status} for ${response.url}`);
             }
             return response.text();
         })
@@ -317,10 +306,9 @@ function openPreview(resourceName, resourceType) {
             console.error('Error fetching text/code file for preview:', absoluteFilePath, e);
             contentDiv.innerHTML = `<div style="padding:20px; text-align:center; color:red;">
                 <h3 style="font-weight:bold;">预览失败</h3>
-                <p>无法加载文件内容。请确保文件路径正确、文件已上传且可公共访问。</p>
+                <p>无法加载文件内容。请确保文件路径 (<code>${absoluteFilePath}</code>) 正确、文件已上传且可公共访问。</p>
                 <p>错误: ${escapeHtml(e.message)}</p>
                 <p style="margin-top:10px;">您也可以尝试使用“下载”按钮在本地查看文件。</p>
-                <p style="margin-top:5px; font-size:0.8em;">尝试访问: <a href="${absoluteFilePath}" target="_blank">${absoluteFilePath}</a></p>
             </div>`;
         });
   }
@@ -334,13 +322,11 @@ function openPreview(resourceName, resourceType) {
   }
 }
 
-// 自定义提示框函数
 function showCustomAlert(message, callback) {
   let alertContainer = document.getElementById('custom-alert-container');
   if (!alertContainer) {
     alertContainer = document.createElement('div');
     alertContainer.id = 'custom-alert-container';
-    // 样式设置... (保持不变)
     alertContainer.style.position = 'fixed';
     alertContainer.style.left = '0';
     alertContainer.style.top = '0';
