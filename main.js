@@ -6,7 +6,8 @@ const chaptersData = {
     description: '传感器原理与数据采集',
     sections: {
       '1.1': { title: '1.1 传感器技术原理', resources: [{ name: '第一章1.1教学PPT', type: 'pptx' }] },
-      '1.2': { title: '1.2 数据采集与处理', resources: [{ name: '第一章1.2教学PPT', type: 'pptx' }] }
+      '1.2': { title: '1.2 数据采集与处理', resources: [{ name: '第一章1.2教学PPT', type: 'pptx' }] },
+      'ex': { title: '第一章习题', resources: [{ name: '第一章习题', type: 'pdf' }] }
     }
   },
   chapter2: {
@@ -15,7 +16,8 @@ const chaptersData = {
     description: '通信协议与云平台',
     sections: {
       '2.1': { title: '2.1 通信协议与网络拓扑', resources: [{ name: '第二章2.1教学PPT', type: 'pptx' }] },
-      '2.2': { title: '2.2 边缘计算与云平台', resources: [{ name: '第二章2.2教学PPT', type: 'pptx' }] }
+      '2.2': { title: '2.2 边缘计算与云平台', resources: [{ name: '第二章2.2教学PPT', type: 'pptx' }] },
+      'ex': { title: '第二章习题', resources: [{ name: '第二章习题', type: 'pdf' }] }
     }
   },
   chapter3: {
@@ -24,7 +26,8 @@ const chaptersData = {
     description: '隐私保护与可持续发展',
     sections: {
       '3.1': { title: '3.1 数据隐私与安全', resources: [{ name: '第三章3.1教学PPT', type: 'pptx' }] },
-      '3.2': { title: '3.2 技术应用的可持续发展', resources: [{ name: '第三章3.2教学PPT', type: 'pptx' }] }
+      '3.2': { title: '3.2 技术应用的可持续发展', resources: [{ name: '第三章3.2教学PPT', type: 'pptx' }] },
+      'ex': { title: '第三章习题', resources: [{ name: '第三章习题', type: 'pdf' }] }
     }
   }
 };
@@ -36,7 +39,11 @@ const fileMap = {
   '第二章2.1教学PPT': 'assets/chapter2-1.pptx',
   '第二章2.2教学PPT': 'assets/chapter2-2.pptx',
   '第三章3.1教学PPT': 'assets/chapter3-1.pptx',
-  '第三章3.2教学PPT': 'assets/chapter3-2.pptx'
+  '第三章3.2教学PPT': 'assets/chapter3-2.pptx',
+  // 新增 pdf 资源
+  '第一章习题': 'assets/text1.pdf',
+  '第二章习题': 'assets/text2.pdf',
+  '第三章习题': 'assets/text3.pdf'
 };
 
 let currentSlides = []; // 虽然未使用，但保留以备将来扩展
@@ -223,6 +230,10 @@ function openPreview(resourceName, resourceType) {
         contentDiv.innerHTML = `<div style="padding:20px; text-align:center; color:red;"><h3 style="font-weight:bold;">在线预览失败</h3><p>无法加载 Office Online Viewer。请检查以下几点：</p><ul style="text-align:left; display:inline-block; margin-top:10px;"><li>确保您的网站已成功部署到 GitHub Pages。</li><li>确认PPTX文件 (路径: ${filePath}) 已正确上传到 GitHub 仓库的 '${sitePrefix + filePath.substring(0, filePath.lastIndexOf('/')+1)}' 位置。</li><li>检查浏览器控制台是否有其他网络错误或CSP（内容安全策略）相关的错误。</li><li>直接在浏览器新标签页中尝试访问以下链接，看是否能下载或显示文件：<br><a href="${resolvedFileUrl}" target="_blank" style="word-break:break-all;">${resolvedFileUrl}</a></li><li>有时，网络问题或 Office Online Viewer 服务本身也可能导致加载失败。</li></ul><p style="margin-top:10px;">您也可以尝试使用“下载”按钮在本地查看文件。</p></div>`;
       };
     }
+  } else if (resourceType === 'pdf') {
+    // 直接用 iframe 嵌入 pdf
+    const resolvedFileUrl = new URL(filePath, location.href).href;
+    contentDiv.innerHTML = `<iframe src="${resolvedFileUrl}" frameborder="0" style="width:100%;height:100%;"></iframe>`;
   } else {
     contentDiv.innerHTML = `<p style="padding:20px; text-align:center;">不支持预览此文件类型 (${resourceType})。</p>`;
   }
