@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智慧物联网教学支持平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#1E40AF',
+                        accent: '#F59E0B'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-microchip text-primary text-2xl mr-3"></i>
+                        <span class="font-bold text-xl text-gray-900">智慧物联网教学平台</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-primary font-medium hover:text-secondary transition-colors">首页</a>
+                    <a href="resources.html" class="text-gray-700 hover:text-primary transition-colors">教学资源</a>
+                    <a href="about.html" class="text-gray-700 hover:text-primary transition-colors">关于我们</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-primary transition-colors">联系我们</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button class="mobile-menu-button text-gray-700 hover:text-primary">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- 移动端菜单 -->
+        <div class="mobile-menu hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-primary font-medium">首页</a>
+                <a href="resources.html" class="block px-3 py-2 text-gray-700 hover:text-primary">教学资源</a>
+                <a href="about.html" class="block px-3 py-2 text-gray-700 hover:text-primary">关于我们</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-700 hover:text-primary">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="relative bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-800 text-white py-20 overflow-hidden">
+        <!-- 动态背景元素 -->
+        <div class="absolute inset-0">
+            <div class="absolute top-10 left-10 w-20 h-20 bg-white bg-opacity-10 rounded-full animate-float"></div>
+            <div class="absolute top-32 right-20 w-16 h-16 bg-yellow-300 bg-opacity-20 rounded-full animate-float-delayed"></div>
+            <div class="absolute bottom-20 left-1/4 w-12 h-12 bg-pink-300 bg-opacity-15 rounded-full animate-float-slow"></div>
+            <div class="absolute bottom-32 right-1/3 w-24 h-24 bg-green-300 bg-opacity-10 rounded-full animate-float"></div>
+        </div>
+        
+        <!-- 渐变覆盖层 -->
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-900/20 to-purple-900/20"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-fade-in-up">
+                    <span class="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                        智能生活与物联网技术
+                    </span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-blue-100 animate-fade-in-up animation-delay-300">
+                    探索物联网世界，构建智慧未来
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-600">
+                    <a href="resources.html" class="group bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <i class="fas fa-download mr-2 group-hover:animate-bounce"></i>
+                        获取教学资源
+                        <div class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                    <a href="about.html" class="group border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300 inline-flex items-center shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                        <i class="fas fa-users mr-2 group-hover:animate-pulse"></i>
+                        了解团队
+                        <div class="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 教材特色 -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 via-white to-blue-50 relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute top-0 left-0 w-full h-full">
+            <div class="absolute top-20 left-10 w-32 h-32 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+            <div class="absolute top-40 right-10 w-32 h-32 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-32 h-32 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+        </div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold bg-gradient-to-r from-gray-900 to-blue-600 bg-clip-text text-transparent mb-4">教材特色</h2>
+                <p class="text-xl text-gray-600">全面覆盖物联网技术核心知识点</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="group text-center p-8 rounded-2xl bg-white/80 backdrop-blur-sm border border-gray-100 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105">
+                    <div class="bg-gradient-to-br from-blue-500 to-cyan-500 text-white w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-microchip text-3xl group-hover:scale-110 transition-transform"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 group-hover:text-blue-600 transition-colors">感知物理世界</h3>
+                    <p class="text-gray-600 leading-relaxed">传感器技术原理与数据采集处理，校园环境监测站搭建实践</p>
+                    <div class="mt-4 w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-500 mx-auto"></div>
+                </div>
+                <div class="group text-center p-8 rounded-2xl bg-white/80 backdrop-blur-sm border border-gray-100 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105">
+                    <div class="bg-gradient-to-br from-green-500 to-emerald-500 text-white w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-network-wired text-3xl group-hover:scale-110 transition-transform"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 group-hover:text-green-600 transition-colors">物联网系统架构</h3>
+                    <p class="text-gray-600 leading-relaxed">通信协议与网络拓扑，边缘计算与云平台，农业大棚智能控制系统</p>
+                    <div class="mt-4 w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-green-500 to-emerald-500 transition-all duration-500 mx-auto"></div>
+                </div>
+                <div class="group text-center p-8 rounded-2xl bg-white/80 backdrop-blur-sm border border-gray-100 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105">
+                    <div class="bg-gradient-to-br from-purple-500 to-pink-500 text-white w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform duration-300 shadow-lg">
+                        <i class="fas fa-shield-alt text-3xl group-hover:scale-110 transition-transform"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 group-hover:text-purple-600 transition-colors">伦理与社会影响</h3>
+                    <p class="text-gray-600 leading-relaxed">数据隐私与安全，技术应用的可持续发展，智能手环的利与弊</p>
+                    <div class="mt-4 w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500 mx-auto"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 章节概览 -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">课程章节</h2>
+                <p class="text-lg text-gray-600">系统化学习物联网技术</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- 第一章 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group" onclick="goToChapter(1)">
+                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-6 text-white group-hover:from-blue-600 group-hover:to-blue-700 transition-all duration-300">
+                        <h3 class="text-xl font-bold mb-2">第一章 感知物理世界</h3>
+                        <p class="text-blue-100">6 课时</p>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-gray-700 group-hover:text-gray-900 transition-colors">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                传感器技术原理
+                            </li>
+                            <li class="flex items-center text-gray-700 group-hover:text-gray-900 transition-colors">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                数据采集与处理
+                            </li>
+                            <li class="flex items-center text-gray-700 group-hover:text-gray-900 transition-colors">
+                                <i class="fas fa-project-diagram text-accent mr-3"></i>
+                                校园环境监测站搭建
+                            </li>
+                        </ul>
+                        <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="text-center">
+                                <span class="text-blue-600 font-medium">
+                                    <i class="fas fa-arrow-right mr-2"></i>点击查看资源
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第二章 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group" onclick="goToChapter(2)">
+                    <div class="bg-gradient-to-r from-green-500 to-green-600 p-6 text-white group-hover:from-green-600 group-hover:to-green-700 transition-all duration-300">
+                        <h3 class="text-xl font-bold mb-2">第二章 物联网系统架构</h3>
+                        <p class="text-green-100">8 课时</p>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-gray-700 group-hover:text-gray-900 transition-colors">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                通信协议与网络拓扑
+                            </li>
+                            <li class="flex items-center text-gray-700 group-hover:text-gray-900 transition-colors">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                边缘计算与云平台
+                            </li>
+                            <li class="flex items-center text-gray-700 group-hover:text-gray-900 transition-colors">
+                                <i class="fas fa-project-diagram text-accent mr-3"></i>
+                                农业大棚智能控制系统
+                            </li>
+                        </ul>
+                        <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="text-center">
+                                <span class="text-green-600 font-medium">
+                                    <i class="fas fa-arrow-right mr-2"></i>点击查看资源
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第三章 -->
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group" onclick="goToChapter(3)">
+                    <div class="bg-gradient-to-r from-purple-500 to-purple-600 p-6 text-white group-hover:from-purple-600 group-hover:to-purple-700 transition-all duration-300">
+                        <h3 class="text-xl font-bold mb-2">第三章 伦理与社会影响</h3>
+                        <p class="text-purple-100">4 课时</p>
+                    </div>
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            <li class="flex items-center text-gray-700 group-hover:text-gray-900 transition-colors">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                数据隐私与安全
+                            </li>
+                            <li class="flex items-center text-gray-700 group-hover:text-gray-900 transition-colors">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                技术应用的可持续发展
+                            </li>
+                            <li class="flex items-center text-gray-700 group-hover:text-gray-900 transition-colors">
+                                <i class="fas fa-comments text-accent mr-3"></i>
+                                智能手环的利与弊
+                            </li>
+                        </ul>
+                        <div class="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="text-center">
+                                <span class="text-purple-600 font-medium">
+                                    <i class="fas fa-arrow-right mr-2"></i>点击查看资源
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 快速访问 -->
+    <section class="py-20 bg-gradient-to-br from-indigo-50 via-white to-cyan-50 relative">
+        <!-- 背景装饰 -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute -top-40 -right-32 w-80 h-80 bg-gradient-to-br from-blue-400 to-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+            <div class="absolute -bottom-40 -left-32 w-80 h-80 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse animation-delay-2000"></div>
+        </div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-4">快速访问</h2>
+                <p class="text-xl text-gray-600">一键获取所需资源</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-indigo-500 to-purple-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <a href="resources.html" class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 border border-gray-100 overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-12 transition-transform duration-300 shadow-lg">
+                            <i class="fas fa-file-powerpoint text-2xl text-white group-hover:scale-110 transition-transform"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">PPT课件</h3>
+                        <p class="text-gray-600">各章节教学课件</p>
+                        <div class="mt-4 w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-blue-500 to-cyan-500 transition-all duration-500 mx-auto"></div>
+                    </div>
+                </a>
+                <a href="resources.html" class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 border border-gray-100 overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-green-500/5 to-emerald-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-12 transition-transform duration-300 shadow-lg">
+                            <i class="fas fa-tasks text-2xl text-white group-hover:scale-110 transition-transform"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">章节习题</h3>
+                        <p class="text-gray-600">配套练习题目</p>
+                        <div class="mt-4 w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-green-500 to-emerald-500 transition-all duration-500 mx-auto"></div>
+                    </div>
+                </a>
+                <a href="about.html" class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 border border-gray-100 overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-12 transition-transform duration-300 shadow-lg">
+                            <i class="fas fa-users text-2xl text-white group-hover:scale-110 transition-transform"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">开发团队</h3>
+                        <p class="text-gray-600">了解制作团队</p>
+                        <div class="mt-4 w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-500 mx-auto"></div>
+                    </div>
+                </a>
+                <a href="contact.html" class="group relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:scale-105 border border-gray-100 overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-br from-orange-500/5 to-red-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div class="relative text-center">
+                        <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-12 transition-transform duration-300 shadow-lg">
+                            <i class="fas fa-envelope text-2xl text-white group-hover:scale-110 transition-transform"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600 transition-colors">联系我们</h3>
+                        <p class="text-gray-600">获取技术支持</p>
+                        <div class="mt-4 w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-orange-500 to-red-500 transition-all duration-500 mx-auto"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-microchip text-primary text-2xl mr-3"></i>
+                        <span class="font-bold text-xl">智慧物联网教学平台</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        《智能生活与物联网技术》教学支持平台，为师生提供优质的教学资源和学习体验。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-weixin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fas fa-envelope text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="resources.html" class="text-gray-400 hover:text-white transition-colors">教学资源</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">关于我们</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">联系我们</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">开发团队</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li>肖冠华</li>
+                        <li>谢锦文</li>
+                        <li>黄劲超</li>
+                        <li>王路华</li>
+                        <li>朱寰宇</li>
+                        <li>张蕊</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 智慧物联网教学支持平台. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('.mobile-menu').classList.toggle('hidden');
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 章节跳转功能
+        function goToChapter(chapterNum) {
+            // 跳转到教学资源页面并显示对应章节
+            window.location.href = `resources.html?chapter=${chapterNum}`;
+        }
+
+        // 添加滚动动画
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-fade-in-up');
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有需要动画的元素
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.group, .text-center').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+
+    <style>
+        /* 自定义动画 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes float-delayed {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .animate-float-delayed {
+            animation: float-delayed 8s ease-in-out infinite;
+        }
+        
+        .animate-float-slow {
+            animation: float-slow 10s ease-in-out infinite;
+        }
+        
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        
+        .animate-fade-in-up {
+            animation: fade-in-up 0.8s ease-out forwards;
+        }
+        
+        .animation-delay-300 {
+            animation-delay: 300ms;
+        }
+        
+        .animation-delay-600 {
+            animation-delay: 600ms;
+        }
+        
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+        
+        /* 渐变文字效果 */
+        .gradient-text {
+            background: linear-gradient(45deg, #3B82F6, #8B5CF6, #EC4899);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 3s ease infinite;
+        }
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* 玻璃态效果 */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* 悬浮阴影效果 */
+        .hover-glow:hover {
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+        }
+        
+        /* 脉冲效果 */
+        .pulse-slow {
+            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    </style>
+</body>
+</html> 

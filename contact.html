@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>联系我们 - 智慧物联网教学支持平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#1E40AF',
+                        accent: '#F59E0B'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-microchip text-primary text-2xl mr-3"></i>
+                        <span class="font-bold text-xl text-gray-900">智慧物联网教学平台</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-primary transition-colors">首页</a>
+                    <a href="resources.html" class="text-gray-700 hover:text-primary transition-colors">教学资源</a>
+                    <a href="about.html" class="text-gray-700 hover:text-primary transition-colors">关于我们</a>
+                    <a href="contact.html" class="text-primary font-medium hover:text-secondary transition-colors">联系我们</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button class="mobile-menu-button text-gray-700 hover:text-primary">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- 移动端菜单 -->
+        <div class="mobile-menu hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-gray-700 hover:text-primary">首页</a>
+                <a href="resources.html" class="block px-3 py-2 text-gray-700 hover:text-primary">教学资源</a>
+                <a href="about.html" class="block px-3 py-2 text-gray-700 hover:text-primary">关于我们</a>
+                <a href="contact.html" class="block px-3 py-2 text-primary font-medium">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面标题 -->
+    <section class="bg-gradient-to-r from-primary to-secondary text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">联系我们</h1>
+                <p class="text-xl text-blue-100">获取技术支持，提出宝贵建议</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系方式 -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">多种联系方式</h2>
+                <p class="text-lg text-gray-600">选择最适合您的沟通方式</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- 邮箱联系 -->
+                <div class="text-center p-6 bg-gradient-to-br from-blue-50 to-blue-100 rounded-lg hover:shadow-lg transition-shadow">
+                    <div class="bg-blue-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">邮箱联系</h3>
+                    <p class="text-gray-600 mb-3">发送详细问题描述</p>
+                    <a href="mailto:support@iot-edu.com" class="text-blue-600 hover:text-blue-800 font-medium">
+                        support@iot-edu.com
+                    </a>
+                </div>
+
+                <!-- 在线客服 -->
+                <div class="text-center p-6 bg-gradient-to-br from-green-50 to-green-100 rounded-lg hover:shadow-lg transition-shadow">
+                    <div class="bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-comments text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">在线客服</h3>
+                    <p class="text-gray-600 mb-3">实时解答您的疑问</p>
+                    <button onclick="openChat()" class="text-green-600 hover:text-green-800 font-medium">
+                        开始对话
+                    </button>
+                </div>
+
+                <!-- 微信群 -->
+                <div class="text-center p-6 bg-gradient-to-br from-purple-50 to-purple-100 rounded-lg hover:shadow-lg transition-shadow">
+                    <div class="bg-purple-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fab fa-weixin text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">微信交流群</h3>
+                    <p class="text-gray-600 mb-3">加入师生交流社区</p>
+                    <button onclick="showQRCode()" class="text-purple-600 hover:text-purple-800 font-medium">
+                        扫码加群
+                    </button>
+                </div>
+
+                <!-- 技术支持 -->
+                <div class="text-center p-6 bg-gradient-to-br from-orange-50 to-orange-100 rounded-lg hover:shadow-lg transition-shadow">
+                    <div class="bg-orange-500 text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-headset text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">技术支持</h3>
+                    <p class="text-gray-600 mb-3">专业技术问题解答</p>
+                    <span class="text-orange-600 font-medium">
+                        工作日 9:00-18:00
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 反馈表单 -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">意见反馈</h2>
+                <p class="text-lg text-gray-600">您的建议是我们改进的动力</p>
+            </div>
+            
+            <div class="bg-white rounded-lg shadow-md p-8">
+                <form id="feedbackForm" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 mb-2">姓名 *</label>
+                            <input type="text" id="name" name="name" required 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">邮箱 *</label>
+                            <input type="email" id="email" name="email" required 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="role" class="block text-sm font-medium text-gray-700 mb-2">身份</label>
+                            <select id="role" name="role" 
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option value="">请选择</option>
+                                <option value="teacher">教师</option>
+                                <option value="student">学生</option>
+                                <option value="admin">管理员</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="category" class="block text-sm font-medium text-gray-700 mb-2">反馈类型 *</label>
+                            <select id="category" name="category" required 
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                                <option value="">请选择</option>
+                                <option value="bug">问题报告</option>
+                                <option value="feature">功能建议</option>
+                                <option value="content">内容反馈</option>
+                                <option value="ui">界面优化</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="subject" class="block text-sm font-medium text-gray-700 mb-2">主题 *</label>
+                        <input type="text" id="subject" name="subject" required 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                               placeholder="请简要描述您的反馈主题">
+                    </div>
+                    
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-gray-700 mb-2">详细描述 *</label>
+                        <textarea id="message" name="message" rows="6" required 
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                  placeholder="请详细描述您的问题、建议或意见..."></textarea>
+                    </div>
+                    
+                    <div class="flex items-center">
+                        <input type="checkbox" id="privacy" name="privacy" required 
+                               class="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded">
+                        <label for="privacy" class="ml-2 block text-sm text-gray-700">
+                            我同意 <a href="#" class="text-primary hover:text-secondary">隐私政策</a> 并允许处理我的个人信息
+                        </label>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" 
+                                class="bg-primary text-white px-8 py-3 rounded-lg font-semibold hover:bg-secondary transition-colors inline-flex items-center">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            提交反馈
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 常见问题 -->
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">常见问题</h2>
+                <p class="text-lg text-gray-600">快速找到您需要的答案</p>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- FAQ项目 -->
+                <div class="border border-gray-200 rounded-lg">
+                    <button class="faq-button w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 focus:outline-none"
+                            onclick="toggleFAQ(this)">
+                        <span class="font-medium text-gray-900">如何下载PPT课件？</span>
+                        <i class="fas fa-chevron-down text-gray-500 transform transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4">
+                        <p class="text-gray-600">
+                            在教学资源页面，选择对应章节，点击PPT课件旁的"下载"按钮即可下载。您也可以先点击"预览"查看课件概要。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg">
+                    <button class="faq-button w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 focus:outline-none"
+                            onclick="toggleFAQ(this)">
+                        <span class="font-medium text-gray-900">习题答案在哪里获取？</span>
+                        <i class="fas fa-chevron-down text-gray-500 transform transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4">
+                        <p class="text-gray-600">
+                            习题答案仅向注册教师用户提供。请联系我们的技术支持团队，提供您的教师身份证明，我们将为您开通答案下载权限。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg">
+                    <button class="faq-button w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 focus:outline-none"
+                            onclick="toggleFAQ(this)">
+                        <span class="font-medium text-gray-900">平台支持哪些浏览器？</span>
+                        <i class="fas fa-chevron-down text-gray-500 transform transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4">
+                        <p class="text-gray-600">
+                            我们的平台支持所有现代浏览器，包括Chrome、Firefox、Safari、Edge等。建议使用最新版本的浏览器以获得最佳体验。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg">
+                    <button class="faq-button w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 focus:outline-none"
+                            onclick="toggleFAQ(this)">
+                        <span class="font-medium text-gray-900">如何获取项目实践的详细指导？</span>
+                        <i class="fas fa-chevron-down text-gray-500 transform transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4">
+                        <p class="text-gray-600">
+                            每个章节的项目实践都配有详细的指导文档和示例代码。您可以在对应章节页面找到"项目指南"和"示例代码"按钮。如需更多帮助，请加入我们的微信交流群。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg">
+                    <button class="faq-button w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 focus:outline-none"
+                            onclick="toggleFAQ(this)">
+                        <span class="font-medium text-gray-900">平台是否收费？</span>
+                        <i class="fas fa-chevron-down text-gray-500 transform transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4">
+                        <p class="text-gray-600">
+                            基础的教学资源完全免费提供给所有用户。部分高级功能和专业服务可能需要付费，具体信息请联系我们的客服团队。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg">
+                    <button class="faq-button w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 focus:outline-none"
+                            onclick="toggleFAQ(this)">
+                        <span class="font-medium text-gray-900">如何报告网站问题？</span>
+                        <i class="fas fa-chevron-down text-gray-500 transform transition-transform"></i>
+                    </button>
+                    <div class="faq-content hidden px-6 pb-4">
+                        <p class="text-gray-600">
+                            如果您发现网站存在问题，请通过上方的反馈表单提交详细的问题描述，或直接发送邮件至 support@iot-edu.com。我们会尽快处理并回复您。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 微信二维码模态框 -->
+    <div id="qrModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg max-w-sm w-full p-6 text-center">
+            <h3 class="text-lg font-semibold mb-4">扫码加入微信群</h3>
+            <div class="bg-gray-100 w-48 h-48 mx-auto mb-4 rounded-lg flex items-center justify-center">
+                <div class="text-center">
+                    <i class="fab fa-weixin text-6xl text-green-500 mb-2"></i>
+                    <p class="text-sm text-gray-600">微信二维码</p>
+                </div>
+            </div>
+            <p class="text-sm text-gray-600 mb-4">使用微信扫描二维码加入交流群</p>
+            <button onclick="closeQRCode()" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors">
+                关闭
+            </button>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-microchip text-primary text-2xl mr-3"></i>
+                        <span class="font-bold text-xl">智慧物联网教学平台</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        《智能生活与物联网技术》教学支持平台，为师生提供优质的教学资源和学习体验。
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-weixin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fas fa-envelope text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="resources.html" class="text-gray-400 hover:text-white transition-colors">教学资源</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">关于我们</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">开发团队</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li>肖冠华</li>
+                        <li>谢锦文</li>
+                        <li>黄劲超</li>
+                        <li>王路华</li>
+                        <li>朱寰宇</li>
+                        <li>张蕊</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 智慧物联网教学支持平台. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 移动端菜单切换
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('.mobile-menu').classList.toggle('hidden');
+        });
+
+        // FAQ切换功能
+        function toggleFAQ(button) {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // 表单提交
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // 获取表单数据
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // 模拟提交
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.innerHTML;
+            
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>提交中...';
+            submitButton.disabled = true;
+            
+            setTimeout(() => {
+                alert('感谢您的反馈！我们会尽快处理并回复您。');
+                this.reset();
+                submitButton.innerHTML = originalText;
+                submitButton.disabled = false;
+            }, 2000);
+        });
+
+        // 在线客服
+        function openChat() {
+            alert('在线客服功能将在后续版本中实现。您可以通过邮箱或微信群联系我们。');
+        }
+
+        // 显示微信二维码
+        function showQRCode() {
+            document.getElementById('qrModal').classList.remove('hidden');
+        }
+
+        // 关闭微信二维码
+        function closeQRCode() {
+            document.getElementById('qrModal').classList.add('hidden');
+        }
+
+        // 点击模态框外部关闭
+        document.getElementById('qrModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeQRCode();
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教学资源 - 智慧物联网教学支持平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#1E40AF',
+                        accent: '#F59E0B'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="fas fa-microchip text-primary text-2xl mr-3"></i>
+                        <span class="font-bold text-xl text-gray-900">智慧物联网教学平台</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="index.html" class="text-gray-700 hover:text-primary transition-colors">首页</a>
+                    <a href="resources.html" class="text-primary font-medium hover:text-secondary transition-colors">教学资源</a>
+                    <a href="about.html" class="text-gray-700 hover:text-primary transition-colors">关于我们</a>
+                    <a href="contact.html" class="text-gray-700 hover:text-primary transition-colors">联系我们</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button class="mobile-menu-button text-gray-700 hover:text-primary">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- 移动端菜单 -->
+        <div class="mobile-menu hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="index.html" class="block px-3 py-2 text-gray-700 hover:text-primary">首页</a>
+                <a href="resources.html" class="block px-3 py-2 text-primary font-medium">教学资源</a>
+                <a href="about.html" class="block px-3 py-2 text-gray-700 hover:text-primary">关于我们</a>
+                <a href="contact.html" class="block px-3 py-2 text-gray-700 hover:text-primary">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 页面标题 -->
+    <section class="relative bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 text-white py-20 overflow-hidden">
+        <!-- 动态背景元素 -->
+        <div class="absolute inset-0">
+            <div class="absolute top-10 left-10 w-24 h-24 bg-white bg-opacity-10 rounded-full animate-float"></div>
+            <div class="absolute top-32 right-20 w-20 h-20 bg-cyan-300 bg-opacity-20 rounded-full animate-float-delayed"></div>
+            <div class="absolute bottom-20 left-1/4 w-16 h-16 bg-pink-300 bg-opacity-15 rounded-full animate-float-slow"></div>
+        </div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-fade-in-up">
+                    <span class="bg-gradient-to-r from-white to-cyan-100 bg-clip-text text-transparent">
+                        教学资源
+                    </span>
+                </h1>
+                <p class="text-xl md:text-2xl text-blue-100 animate-fade-in-up animation-delay-300">获取完整的课程资料和练习题目</p>
+                <div class="w-24 h-1 bg-gradient-to-r from-cyan-400 to-blue-300 mx-auto mt-6 rounded-full animate-fade-in-up animation-delay-600"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 资源导航 -->
+    <section class="py-12 bg-gradient-to-r from-white via-blue-50 to-white border-b border-blue-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center gap-6">
+                <button onclick="showChapter(1)" class="chapter-btn group bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-8 py-4 rounded-2xl hover:from-blue-600 hover:to-cyan-600 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl shadow-lg" data-chapter="1">
+                    <div class="flex items-center">
+                        <i class="fas fa-microchip mr-3 group-hover:animate-pulse"></i>
+                        <span class="font-semibold">第一章 感知物理世界</span>
+                    </div>
+                </button>
+                <button onclick="showChapter(2)" class="chapter-btn group bg-white text-gray-700 px-8 py-4 rounded-2xl hover:bg-gradient-to-r hover:from-green-500 hover:to-emerald-500 hover:text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl shadow-lg border border-gray-200" data-chapter="2">
+                    <div class="flex items-center">
+                        <i class="fas fa-network-wired mr-3 group-hover:animate-pulse"></i>
+                        <span class="font-semibold">第二章 物联网系统架构</span>
+                    </div>
+                </button>
+                <button onclick="showChapter(3)" class="chapter-btn group bg-white text-gray-700 px-8 py-4 rounded-2xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 hover:text-white transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl shadow-lg border border-gray-200" data-chapter="3">
+                    <div class="flex items-center">
+                        <i class="fas fa-shield-alt mr-3 group-hover:animate-pulse"></i>
+                        <span class="font-semibold">第三章 伦理与社会影响</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 资源内容 -->
+    <section class="py-16 bg-gradient-to-br from-gray-50 via-white to-blue-50 relative overflow-hidden">
+        <!-- 背景装饰 -->
+        <div class="absolute top-0 left-0 w-full h-full">
+            <div class="absolute top-20 right-10 w-40 h-40 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div class="absolute bottom-20 left-10 w-40 h-40 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+        </div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- 第一章内容 -->
+            <div id="chapter-1" class="chapter-content">
+                <div class="mb-12 text-center">
+                    <h2 class="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-4">第一章 感知物理世界 (6课时)</h2>
+                    <p class="text-xl text-gray-600 mb-6">学习传感器技术原理和数据采集处理方法</p>
+                    <div class="w-24 h-1 bg-gradient-to-r from-blue-500 to-cyan-500 mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-10">
+                    <!-- PPT课件 -->
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-gray-100 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                        <h3 class="text-2xl font-bold mb-6 flex items-center">
+                            <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-pink-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                                <i class="fas fa-file-powerpoint text-white text-xl"></i>
+                            </div>
+                            <span class="bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">PPT课件</span>
+                        </h3>
+                        <div class="space-y-6">
+                            <div class="group bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:from-blue-100 hover:to-cyan-100">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 text-lg group-hover:text-blue-700 transition-colors">1.1 传感器技术原理</h4>
+                                        <p class="text-blue-600 font-medium">物理学科融合</p>
+                                    </div>
+                                    <div class="flex space-x-3">
+                                        <button onclick="previewPPT('assets/chapter1-1.pptx', '第一章1.1教学PPT')" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-md">
+                                            <i class="fas fa-eye mr-2"></i>预览
+                                        </button>
+                                        <a href="assets/chapter1-1.pptx" download class="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-lg text-sm hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-md">
+                                            <i class="fas fa-download mr-2"></i>下载
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="group bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:from-purple-100 hover:to-indigo-100">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 text-lg group-hover:text-purple-700 transition-colors">1.2 数据采集与处理</h4>
+                                        <p class="text-purple-600 font-medium">数学统计知识</p>
+                                    </div>
+                                    <div class="flex space-x-3">
+                                        <button onclick="previewPPT('assets/chapter1-2.pptx', '第一章1.2教学PPT')" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-md">
+                                            <i class="fas fa-eye mr-2"></i>预览
+                                        </button>
+                                        <a href="assets/chapter1-2.pptx" download class="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-lg text-sm hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-md">
+                                            <i class="fas fa-download mr-2"></i>下载
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 章节习题 -->
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl p-8 border border-gray-100 hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                        <h3 class="text-2xl font-bold mb-6 flex items-center">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                                <i class="fas fa-tasks text-white text-xl"></i>
+                            </div>
+                            <span class="bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">章节习题</span>
+                        </h3>
+                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:from-green-100 hover:to-emerald-100">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h4 class="font-bold text-gray-900 text-lg">第一章综合练习</h4>
+                                    <p class="text-green-600 font-medium">包含选择题、填空题和应用题</p>
+                                </div>
+                                <div class="flex space-x-3">
+                                    <button onclick="previewExercise(1)" class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-md">
+                                        <i class="fas fa-eye mr-2"></i>预览
+                                    </button>
+                                    <a href="assets/text1.pdf" download="第1章习题.pdf" class="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-lg text-sm hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-md">
+                                        <i class="fas fa-download mr-2"></i>下载
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 项目实践 -->
+                        <div class="mt-8">
+                            <h4 class="font-bold text-gray-900 mb-4 flex items-center text-lg">
+                                <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg flex items-center justify-center mr-3">
+                                    <i class="fas fa-project-diagram text-white text-sm"></i>
+                                </div>
+                                项目实践
+                            </h4>
+                            <div class="bg-gradient-to-br from-blue-50 via-cyan-50 to-blue-100 p-6 rounded-xl border border-blue-200 hover:shadow-lg transition-all duration-300">
+                                <h5 class="font-bold text-blue-900 mb-3 text-lg">校园环境监测站搭建</h5>
+                                <p class="text-blue-800 mb-4 leading-relaxed">使用传感器技术搭建校园环境监测系统</p>
+                                <div class="flex space-x-3">
+                                    <button class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-md">
+                                        <i class="fas fa-file-alt mr-2"></i>项目指南
+                                    </button>
+                                    <button class="bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-lg text-sm hover:from-green-600 hover:to-green-700 transition-all duration-300 transform hover:scale-105 shadow-md">
+                                        <i class="fas fa-code mr-2"></i>示例代码
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二章内容 -->
+            <div id="chapter-2" class="chapter-content hidden">
+                <div class="mb-12 text-center">
+                    <h2 class="text-4xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-4">第二章 物联网系统架构 (8课时)</h2>
+                    <p class="text-xl text-gray-600 mb-6">深入了解物联网系统的整体架构和关键技术</p>
+                    <div class="w-24 h-1 bg-gradient-to-r from-green-500 to-emerald-500 mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- PPT课件 -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-file-powerpoint text-red-500 mr-3"></i>
+                            PPT课件
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">2.1 通信协议与网络拓扑</h4>
+                                        <p class="text-sm text-gray-600">网络通信基础</p>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button onclick="previewPPT('assets/chapter2-1.pptx', '第二章2.1教学PPT')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition-colors">
+                                            <i class="fas fa-eye mr-1"></i>预览
+                                        </button>
+                                        <a href="assets/chapter2-1.pptx" download class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors">
+                                            <i class="fas fa-download mr-1"></i>下载
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">2.2 边缘计算与云平台</h4>
+                                        <p class="text-sm text-gray-600">分布式计算架构</p>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button onclick="previewPPT('assets/chapter2-2.pptx', '第二章2.2教学PPT')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition-colors">
+                                            <i class="fas fa-eye mr-1"></i>预览
+                                        </button>
+                                        <a href="assets/chapter2-2.pptx" download class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors">
+                                            <i class="fas fa-download mr-1"></i>下载
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 章节习题 -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-tasks text-green-500 mr-3"></i>
+                            章节习题
+                        </h3>
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">第二章综合练习</h4>
+                                    <p class="text-sm text-gray-600">系统架构设计与分析题</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button onclick="previewExercise(2)" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition-colors">
+                                        <i class="fas fa-eye mr-1"></i>预览
+                                    </button>
+                                    <a href="assets/text2.pdf" download="第2章习题.pdf" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors">
+                                        <i class="fas fa-download mr-1"></i>下载
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 跨学科案例 -->
+                        <div class="mt-6">
+                            <h4 class="font-medium text-gray-900 mb-3 flex items-center">
+                                <i class="fas fa-seedling text-green-600 mr-2"></i>
+                                跨学科案例
+                            </h4>
+                            <div class="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg">
+                                <h5 class="font-medium text-green-900 mb-2">农业大棚智能控制系统</h5>
+                                <p class="text-sm text-green-800 mb-3">结合农业知识，设计智能化大棚管理系统</p>
+                                <div class="flex space-x-2">
+                                    <button class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors">
+                                        <i class="fas fa-file-alt mr-1"></i>案例分析
+                                    </button>
+                                    <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition-colors">
+                                        <i class="fas fa-cogs mr-1"></i>系统设计
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第三章内容 -->
+            <div id="chapter-3" class="chapter-content hidden">
+                <div class="mb-12 text-center">
+                    <h2 class="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">第三章 伦理与社会影响 (4课时)</h2>
+                    <p class="text-xl text-gray-600 mb-6">探讨物联网技术的社会责任和可持续发展</p>
+                    <div class="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full"></div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- PPT课件 -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-file-powerpoint text-red-500 mr-3"></i>
+                            PPT课件
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">3.1 数据隐私与安全</h4>
+                                        <p class="text-sm text-gray-600">信息安全与法律法规</p>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button onclick="previewPPT('assets/chapter3-1.pptx', '第三章3.1教学PPT')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition-colors">
+                                            <i class="fas fa-eye mr-1"></i>预览
+                                        </button>
+                                        <a href="assets/chapter3-1.pptx" download class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors">
+                                            <i class="fas fa-download mr-1"></i>下载
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="font-medium text-gray-900">3.2 技术应用的可持续发展</h4>
+                                        <p class="text-sm text-gray-600">环境保护与社会责任</p>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button onclick="previewPPT('assets/chapter3-2.pptx', '第三章3.2教学PPT')" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition-colors">
+                                            <i class="fas fa-eye mr-1"></i>预览
+                                        </button>
+                                        <a href="assets/chapter3-2.pptx" download class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors">
+                                            <i class="fas fa-download mr-1"></i>下载
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 章节习题 -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-semibold mb-4 flex items-center">
+                            <i class="fas fa-tasks text-green-500 mr-3"></i>
+                            章节习题
+                        </h3>
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">第三章综合练习</h4>
+                                    <p class="text-sm text-gray-600">伦理思辨与案例分析</p>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button onclick="previewExercise(3)" class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition-colors">
+                                        <i class="fas fa-eye mr-1"></i>预览
+                                    </button>
+                                    <a href="assets/text3.pdf" download="第3章习题.pdf" class="bg-green-500 text-white px-3 py-1 rounded text-sm hover:bg-green-600 transition-colors">
+                                        <i class="fas fa-download mr-1"></i>下载
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 辩论活动 -->
+                        <div class="mt-6">
+                            <h4 class="font-medium text-gray-900 mb-3 flex items-center">
+                                <i class="fas fa-comments text-purple-600 mr-2"></i>
+                                辩论活动
+                            </h4>
+                            <div class="bg-gradient-to-r from-purple-50 to-purple-100 p-4 rounded-lg">
+                                <h5 class="font-medium text-purple-900 mb-2">智能手环的利与弊</h5>
+                                <p class="text-sm text-purple-800 mb-3">从多角度分析智能穿戴设备的社会影响</p>
+                                <div class="flex space-x-2">
+                                    <button class="bg-purple-500 text-white px-3 py-1 rounded text-sm hover:bg-purple-600 transition-colors">
+                                        <i class="fas fa-balance-scale mr-1"></i>辩论要点
+                                    </button>
+                                    <button class="bg-orange-500 text-white px-3 py-1 rounded text-sm hover:bg-orange-600 transition-colors">
+                                        <i class="fas fa-lightbulb mr-1"></i>思考题
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PPT预览模态框 -->
+    <div id="pptModal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl w-full h-full max-w-7xl max-h-full overflow-hidden flex flex-col shadow-2xl border border-gray-200 modal-enter">
+            <div class="flex justify-between items-center p-6 border-b bg-gradient-to-r from-gray-50 to-blue-50">
+                <h3 id="pptTitle" class="text-xl font-bold text-gray-800">PPT预览</h3>
+                <div class="flex items-center space-x-3">
+                    <button onclick="toggleFullscreen('pptModal')" class="text-gray-600 hover:text-blue-600 px-4 py-2 bg-blue-100 rounded-xl hover:bg-blue-200 transition-all duration-300 transform hover:scale-105 shadow-md">
+                        <i class="fas fa-expand mr-2"></i>全屏预览
+                    </button>
+                    <button onclick="closePPTModal()" class="text-gray-600 hover:text-red-600 p-3 hover:bg-red-100 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 p-4">
+                <!-- 预览内容将通过JavaScript动态加载 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 习题预览模态框 -->
+    <div id="exerciseModal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl w-full h-full max-w-7xl max-h-full overflow-hidden flex flex-col shadow-2xl border border-gray-200 modal-enter">
+            <div class="flex justify-between items-center p-6 border-b bg-gradient-to-r from-gray-50 to-green-50">
+                <h3 id="exerciseTitle" class="text-xl font-bold text-gray-800">习题预览</h3>
+                <div class="flex items-center space-x-3">
+                    <button onclick="toggleFullscreen('exerciseModal')" class="text-gray-600 hover:text-green-600 px-4 py-2 bg-green-100 rounded-xl hover:bg-green-200 transition-all duration-300 transform hover:scale-105 shadow-md">
+                        <i class="fas fa-expand mr-2"></i>全屏预览
+                    </button>
+                    <button onclick="closeExerciseModal()" class="text-gray-600 hover:text-red-600 p-3 hover:bg-red-100 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex-1 p-4">
+                <div id="exerciseContent">
+                    <!-- 习题内容将在这里动态加载 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="bg-gray-900 text-white py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="col-span-2">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-microchip text-primary text-2xl mr-3"></i>
+                        <span class="font-bold text-xl">智慧物联网教学平台</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">
+                        《智能生活与物联网技术》教学支持平台，为师生提供优质的教学资源和学习体验。
+                    </p>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">快速链接</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-400 hover:text-white transition-colors">首页</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white transition-colors">关于我们</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white transition-colors">联系我们</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="font-semibold mb-4">开发团队</h3>
+                    <ul class="space-y-2 text-gray-400 text-sm">
+                        <li>肖冠华</li>
+                        <li>谢锦文</li>
+                        <li>黄劲超</li>
+                        <li>王路华</li>
+                        <li>朱寰宇</li>
+                        <li>张蕊</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 智慧物联网教学支持平台. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 章节切换功能
+        function showChapter(chapterNum) {
+            // 隐藏所有章节内容
+            document.querySelectorAll('.chapter-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            // 显示选中的章节
+            document.getElementById(`chapter-${chapterNum}`).classList.remove('hidden');
+            
+            // 更新按钮样式
+            document.querySelectorAll('.chapter-btn').forEach(btn => {
+                btn.classList.remove('bg-gradient-to-r', 'from-blue-500', 'to-cyan-500', 'from-green-500', 'to-emerald-500', 'from-purple-500', 'to-pink-500', 'text-white');
+                btn.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-200');
+            });
+            
+            const activeBtn = document.querySelector(`[data-chapter="${chapterNum}"]`);
+            activeBtn.classList.remove('bg-white', 'text-gray-700', 'border', 'border-gray-200');
+            
+            // 根据章节设置不同的渐变色
+            if (chapterNum === 1) {
+                activeBtn.classList.add('bg-gradient-to-r', 'from-blue-500', 'to-cyan-500', 'text-white');
+            } else if (chapterNum === 2) {
+                activeBtn.classList.add('bg-gradient-to-r', 'from-green-500', 'to-emerald-500', 'text-white');
+            } else if (chapterNum === 3) {
+                activeBtn.classList.add('bg-gradient-to-r', 'from-purple-500', 'to-pink-500', 'text-white');
+            }
+        }
+
+        // PPT预览功能 - 使用Office在线预览
+        function previewPPT(filePath, title) {
+            const githubUrl = `https://beloved404.github.io/website/${filePath}`;
+            const officePreviewUrl = `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(githubUrl)}`;
+            
+            document.getElementById('pptTitle').textContent = title;
+            
+            // 更新预览内容为Office在线预览
+            const previewContent = document.querySelector('#pptModal .flex-1');
+            previewContent.innerHTML = `
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl overflow-hidden h-full shadow-inner">
+                    <iframe src="${officePreviewUrl}" 
+                            width="100%" 
+                            height="100%" 
+                            frameborder="0"
+                            style="min-height: 600px;"
+                            onload="console.log('PPT预览加载成功')"
+                            onerror="console.log('PPT预览加载失败')">
+                    </iframe>
+                </div>
+            `;
+            
+            document.getElementById('pptModal').classList.remove('hidden');
+        }
+
+        function closePPTModal() {
+            document.getElementById('pptModal').classList.add('hidden');
+        }
+
+        // 习题预览功能 - 使用PDF在线预览
+        function previewExercise(chapterNum) {
+            const exerciseFiles = {
+                1: 'assets/text1.pdf',
+                2: 'assets/text2.pdf',
+                3: 'assets/text3.pdf'
+            };
+            
+            const filePath = exerciseFiles[chapterNum];
+            const githubUrl = `https://beloved404.github.io/website/${filePath}`;
+            
+            document.getElementById('exerciseTitle').textContent = `第${chapterNum}章习题预览`;
+            
+            // 使用PDF在线预览
+            const exerciseContent = `
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl overflow-hidden h-full shadow-inner">
+                    <iframe src="${githubUrl}" 
+                            width="100%" 
+                            height="100%" 
+                            frameborder="0"
+                            style="min-height: 600px;"
+                            onload="console.log('PDF预览加载成功')"
+                            onerror="console.log('PDF预览加载失败')">
+                    </iframe>
+                </div>
+            `;
+            
+            document.getElementById('exerciseContent').innerHTML = exerciseContent;
+            document.getElementById('exerciseModal').classList.remove('hidden');
+        }
+
+        function closeExerciseModal() {
+            document.getElementById('exerciseModal').classList.add('hidden');
+        }
+
+        // 全屏预览功能
+        function toggleFullscreen(modalId) {
+            const modal = document.getElementById(modalId);
+            if (!document.fullscreenElement) {
+                modal.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+
+
+
+
+        // 移动端菜单切换
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('.mobile-menu').classList.toggle('hidden');
+        });
+
+        // 页面加载时处理URL参数并显示对应章节
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取URL参数
+            const urlParams = new URLSearchParams(window.location.search);
+            const chapterParam = urlParams.get('chapter');
+            
+            // 如果有章节参数，显示对应章节，否则显示第一章
+            const chapterToShow = chapterParam ? parseInt(chapterParam) : 1;
+            
+            // 验证章节号是否有效
+            if (chapterToShow >= 1 && chapterToShow <= 3) {
+                showChapter(chapterToShow);
+            } else {
+                showChapter(1);
+            }
+        });
+    </script>
+
+    <style>
+        /* 自定义动画 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes float-delayed {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
+        }
+        
+        @keyframes fade-in-up {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .animate-float-delayed {
+            animation: float-delayed 8s ease-in-out infinite;
+        }
+        
+        .animate-float-slow {
+            animation: float-slow 10s ease-in-out infinite;
+        }
+        
+        .animate-blob {
+            animation: blob 7s infinite;
+        }
+        
+        .animate-fade-in-up {
+            animation: fade-in-up 0.8s ease-out forwards;
+        }
+        
+        .animation-delay-300 {
+            animation-delay: 300ms;
+        }
+        
+        .animation-delay-600 {
+            animation-delay: 600ms;
+        }
+        
+        .animation-delay-2000 {
+            animation-delay: 2s;
+        }
+        
+        .animation-delay-4000 {
+            animation-delay: 4s;
+        }
+        
+        /* 全屏模式下的样式优化 */
+        :fullscreen {
+            background: white;
+        }
+        
+        :-webkit-full-screen {
+            background: white;
+        }
+        
+        :-moz-full-screen {
+            background: white;
+        }
+        
+        /* 预览iframe的样式优化 */
+        iframe {
+            border: none;
+            border-radius: 12px;
+        }
+        
+        /* 模态框动画 */
+        .modal-enter {
+            animation: modalFadeIn 0.3s ease-out;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* 玻璃态效果 */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* 悬浮阴影效果 */
+        .hover-glow:hover {
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+        }
+    </style>
+</body>
+</html> 
