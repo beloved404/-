@@ -492,6 +492,38 @@
         </div>
     </footer>
 
+    <!-- AI 学习助手 -->
+    <div id="ai-assistant-container" class="fixed bottom-8 right-8 z-50">
+        <button id="ai-assistant-button" class="bg-primary text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center hover:bg-secondary transition-colors">
+            <i class="fas fa-robot text-2xl"></i>
+        </button>
+        <div id="ai-assistant-chatbox" class="hidden absolute bottom-20 right-0 w-80 md:w-96 bg-white rounded-lg shadow-xl border border-gray-200 flex flex-col" style="height: 500px;">
+            <div class="bg-primary text-white p-4 rounded-t-lg flex justify-between items-center">
+                <h3 class="font-semibold text-lg">AI 学习助手</h3>
+                <button id="ai-assistant-close-button" class="text-white hover:text-gray-200">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="ai-assistant-messages" class="flex-grow p-4 overflow-y-auto space-y-4 bg-gray-50">
+                <!-- 聊天消息将在这里显示 -->
+                <div class="flex">
+                    <div class="bg-secondary text-white p-3 rounded-lg max-w-xs shadow">
+                        你好！我是你的 AI 学习助手，有什么可以帮助你的吗？
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-gray-200 bg-white">
+                <div class="flex items-center space-x-2">
+                    <input type="text" id="ai-assistant-input" class="flex-grow border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-transparent outline-none" placeholder="输入你的问题...">
+                    <button id="ai-assistant-send-button" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-secondary transition-colors font-semibold">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                 <p class="text-xs text-gray-400 mt-2 text-center">由 Gemini 驱动</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 章节切换功能
         function showChapter(chapterNum) {
@@ -597,10 +629,6 @@
                 document.exitFullscreen();
             }
         }
-
-
-
-
 
         // 移动端菜单切换
         document.querySelector('.mobile-menu-button').addEventListener('click', function() {
@@ -743,5 +771,191 @@
             box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
         }
     </style>
+
+    <script type="module">
+        // const apiKey = "YOUR_API_KEY"; //  Ensure apiKey is defined, ideally in one place if possible or copied correctly.
+        const apiKey = "AIzaSyDsbCHeqp1ILG74iqilwg3aa78jUhF1j1U"; 
+
+        const assistantButton = document.getElementById('ai-assistant-button');
+        const assistantChatbox = document.getElementById('ai-assistant-chatbox');
+        const closeButton = document.getElementById('ai-assistant-close-button');
+        const sendButton = document.getElementById('ai-assistant-send-button');
+        const messageInput = document.getElementById('ai-assistant-input');
+        const messagesContainer = document.getElementById('ai-assistant-messages');
+
+        let chatHistory = [
+            { role: "user", parts: [{ text: "你好" }] },
+            { role: "model", parts: [{ text: "你好！我是一个AI学习助手，有什么可以帮助你的吗？" }] }
+        ];
+
+        if (messagesContainer.children.length === 1 && messagesContainer.firstElementChild.classList.contains('flex')) {
+            const initialBotMessageDiv = messagesContainer.firstElementChild;
+            if (initialBotMessageDiv.querySelector('.bg-secondary')) { 
+                 initialBotMessageDiv.remove(); 
+            }
+        }
+        displayMessage(chatHistory[1].parts[0].text, chatHistory[1].role);
+
+        function toggleChatbox() {
+            assistantChatbox.classList.toggle('hidden');
+            if (!assistantChatbox.classList.contains('hidden')) {
+                messageInput.focus();
+            }
+        }
+
+        assistantButton.addEventListener('click', toggleChatbox);
+        closeButton.addEventListener('click', toggleChatbox);
+
+        function displayMessage(message, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('flex', 'mb-3');
+            const bubble = document.createElement('div');
+            bubble.classList.add('p-3', 'rounded-lg', 'max-w-xs', 'shadow');
+
+            if (sender === 'user') {
+                messageElement.classList.add('justify-end');
+                bubble.classList.add('bg-primary', 'text-white');
+                bubble.textContent = message; 
+            } else { 
+                messageElement.classList.add('justify-start'); 
+                bubble.classList.add('bg-gray-200', 'text-gray-800');
+                bubble.innerHTML = ''; 
+                let i = 0;
+                function typeWriter() {
+                    if (i < message.length) {
+                        bubble.innerHTML += message.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 20); 
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }
+                }
+                typeWriter();
+            }
+            
+            messageElement.appendChild(bubble);
+            messagesContainer.appendChild(messageElement);
+            setTimeout(() => { messagesContainer.scrollTop = messagesContainer.scrollHeight; }, 50);
+        }
+
+        async function sendMessageToAI(userMessage) {
+            chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
+            
+            try {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
+                const payload = { contents: chatHistory };
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ error: { message: response.statusText } })); 
+                    console.error('API Error Status:', response.status);
+                    console.error('API Error Body:', errorData);
+                    const errorMsg = `抱歉，发生错误 (代码: ${response.status}): ${errorData.error?.message || '未知API错误'}`;
+                    chatHistory.push({ role: "model", parts: [{ text: errorMsg }] }); 
+                    return errorMsg;
+                }
+
+                const result = await response.json();
+                let aiResponseText = "抱歉，我暂时无法回答。";
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    aiResponseText = result.candidates[0].content.parts[0].text;
+                } else if (result.promptFeedback && result.promptFeedback.blockReason) {
+                    aiResponseText = `无法生成回复，原因: ${result.promptFeedback.blockReason}`;
+                    if (result.promptFeedback.safetyRatings) {
+                         console.warn('Safety ratings:', result.promptFeedback.safetyRatings);
+                    }
+                } else {
+                    console.warn('Unexpected API response structure:', result);
+                }
+                
+                chatHistory.push({ role: "model", parts: [{ text: aiResponseText }] });
+                return aiResponseText;
+
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                const networkErrorMsg = '抱歉，连接AI助手时遇到网络问题，请检查你的网络连接。';
+                return networkErrorMsg;
+            }
+        }
+
+        async function sendMessage() {
+            const messageText = messageInput.value.trim();
+            if (messageText === '') return;
+
+            displayMessage(messageText, 'user');
+            messageInput.value = '';
+            messageInput.disabled = true;
+            sendButton.disabled = true;
+            addTypingIndicator();
+
+            const botMessage = await sendMessageToAI(messageText); 
+
+            removeTypingIndicator();
+            displayMessage(botMessage, 'model'); 
+            
+            messageInput.disabled = false;
+            sendButton.disabled = false;
+            messageInput.focus();
+        }
+
+        function addTypingIndicator() {
+            const typingIndicator = document.createElement('div');
+            typingIndicator.id = 'typing-indicator';
+            typingIndicator.classList.add('flex', 'items-center', 'space-x-1', 'p-2');
+            typingIndicator.innerHTML = `
+                <div class="bg-gray-300 w-2 h-2 rounded-full animate-pulse"></div>
+                <div class="bg-gray-300 w-2 h-2 rounded-full animate-pulse animation-delay-200"></div>
+                <div class="bg-gray-300 w-2 h-2 rounded-full animate-pulse animation-delay-400"></div>
+                <span class="text-sm text-gray-500 ml-2">AI 正在输入...</span>
+            `;
+            messagesContainer.appendChild(typingIndicator);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            .animation-delay-200 { animation-delay: 0.2s; }
+            .animation-delay-400 { animation-delay: 0.4s; }
+            #ai-assistant-chatbox {
+                transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            }
+            #ai-assistant-chatbox.hidden {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+                pointer-events: none;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            #ai-assistant-messages > div {
+                animation: fadeIn 0.3s ease-out;
+            }
+        `;
+        document.head.appendChild(style);
+
+    </script>
+
+    <script src="assets/js/main.js"></script> <!-- Ensure this is the correct path if needed -->
 </body>
 </html> 
