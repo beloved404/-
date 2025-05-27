@@ -359,6 +359,38 @@
         </div>
     </footer>
 
+    <!-- AI 学习助手 -->
+    <div id="ai-assistant-container" class="fixed bottom-8 right-8 z-50">
+        <button id="ai-assistant-button" class="bg-primary text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center hover:bg-secondary transition-colors">
+            <i class="fas fa-robot text-2xl"></i>
+        </button>
+        <div id="ai-assistant-chatbox" class="hidden absolute bottom-20 right-0 w-80 md:w-96 bg-white rounded-lg shadow-xl border border-gray-200 flex flex-col" style="height: 500px;">
+            <div class="bg-primary text-white p-4 rounded-t-lg flex justify-between items-center">
+                <h3 class="font-semibold text-lg">AI 学习助手</h3>
+                <button id="ai-assistant-close-button" class="text-white hover:text-gray-200">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="ai-assistant-messages" class="flex-grow p-4 overflow-y-auto space-y-4 bg-gray-50">
+                <!-- 聊天消息将在这里显示 -->
+                <div class="flex">
+                    <div class="bg-secondary text-white p-3 rounded-lg max-w-xs shadow">
+                        你好！我是你的 AI 学习助手，有什么可以帮助你的吗？
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-gray-200 bg-white">
+                <div class="flex items-center space-x-2">
+                    <input type="text" id="ai-assistant-input" class="flex-grow border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary focus:border-transparent outline-none" placeholder="输入你的问题...">
+                    <button id="ai-assistant-send-button" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-secondary transition-colors font-semibold">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                 <p class="text-xs text-gray-400 mt-2 text-center">由 Gemini 驱动</p>
+            </div>
+        </div>
+    </div>
+
     <script>
         // 移动端菜单切换
         document.querySelector('.mobile-menu-button').addEventListener('click', function() {
@@ -403,109 +435,233 @@
         });
     </script>
 
-    <style>
-        /* 自定义动画 */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+    <script type="module">
+        // import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai"; // 移除 SDK 导入
+
+        const apiKey = "AIzaSyDsbCHeqp1ILG74iqilwg3aa78jUhF1j1U"; // 使用你提供的密钥
+        // const genAI = new GoogleGenerativeAI(apiKey); // 移除
+        // const model = genAI.getGenerativeModel({ model: "gemini-pro"}); // 移除
+
+        const assistantButton = document.getElementById('ai-assistant-button');
+        const assistantChatbox = document.getElementById('ai-assistant-chatbox');
+        const closeButton = document.getElementById('ai-assistant-close-button');
+        const sendButton = document.getElementById('ai-assistant-send-button');
+        const messageInput = document.getElementById('ai-assistant-input');
+        const messagesContainer = document.getElementById('ai-assistant-messages');
+
+        // let chat; // 移除 SDK 的 chat 对象
+
+        // 初始化聊天历史
+        let chatHistory = [
+            { role: "user", parts: [{ text: "你好" }] },
+            { role: "model", parts: [{ text: "你好！我是一个AI学习助手，有什么可以帮助你的吗？" }] }
+        ];
+
+        // 将初始的AI问候语显示在界面上 (如果 messagesContainer 初始为空)
+        if (messagesContainer.children.length === 1 && messagesContainer.firstElementChild.classList.contains('flex')) { // 检查是否只有初始的提示消息
+            const initialBotMessageDiv = messagesContainer.firstElementChild;
+            if (initialBotMessageDiv.querySelector('.bg-secondary')) { // 确保是AI的消息
+                 initialBotMessageDiv.remove(); // 移除占位的静态消息
+            }
         }
-        
-        @keyframes float-delayed {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+        //  显示聊天历史中的初始消息
+        // displayMessage(chatHistory[0].parts[0].text, chatHistory[0].role); // 用户消息一般不预先显示
+        displayMessage(chatHistory[1].parts[0].text, chatHistory[1].role);
+
+
+        // async function initializeChat() { // 移除 SDK 的初始化
+        //     chat = model.startChat({
+        //         history: [
+        //             { role: "user", parts: [{ text: "你好" }] },
+        //             { role: "model", parts: [{ text: "你好！我是一个大型语言模型，由 Google 训练。有什么我可以帮助你的吗？" }] }
+        //         ],
+        //         generationConfig: {
+        //             maxOutputTokens: 1000, // 根据需要调整
+        //         },
+        //     });
+        // }
+        // initializeChat(); // 移除
+
+
+        function toggleChatbox() {
+            assistantChatbox.classList.toggle('hidden');
+            if (!assistantChatbox.classList.contains('hidden')) {
+                messageInput.focus();
+            }
         }
-        
-        @keyframes float-slow {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+
+        assistantButton.addEventListener('click', toggleChatbox);
+        closeButton.addEventListener('click', toggleChatbox);
+
+        function displayMessage(message, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('flex', 'mb-3');
+            const bubble = document.createElement('div');
+            bubble.classList.add('p-3', 'rounded-lg', 'max-w-xs', 'shadow');
+
+            if (sender === 'user') {
+                messageElement.classList.add('justify-end');
+                bubble.classList.add('bg-primary', 'text-white');
+                bubble.textContent = message; // 用户消息直接显示
+            } else { // 'model'
+                messageElement.classList.add('justify-start'); // AI消息居左
+                bubble.classList.add('bg-gray-200', 'text-gray-800');
+                //  打字机效果
+                bubble.innerHTML = ''; 
+                let i = 0;
+                function typeWriter() {
+                    if (i < message.length) {
+                        bubble.innerHTML += message.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 20); 
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }
+                }
+                typeWriter();
+            }
+            
+            messageElement.appendChild(bubble);
+            messagesContainer.appendChild(messageElement);
+            // 确保在添加新消息后，即使是打字机效果，也能滚动到底部
+            setTimeout(() => { messagesContainer.scrollTop = messagesContainer.scrollHeight; }, 50);
         }
-        
-        @keyframes blob {
-            0% { transform: translate(0px, 0px) scale(1); }
-            33% { transform: translate(30px, -50px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-            100% { transform: translate(0px, 0px) scale(1); }
+
+        async function sendMessageToAI(userMessage) {
+            // 添加用户消息到历史
+            chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
+            
+            try {
+                // const apiKey = "AIzaSyALwVl1iwLavjaZW-Wx3FP2zJWoYzQfamU"; // 密钥已在外部定义
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`; // 更新模型到 gemini-1.5-flash-latest
+                
+                // 构造请求体，只发送最后几条消息以避免历史过长， Gemini API 通常处理上下文
+                // 或者根据 Gemini API 的具体要求调整发送的 history 长度
+                const payload = { contents: chatHistory }; // 发送完整历史
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ error: { message: response.statusText } })); // 保证 errorData 可用
+                    console.error('API Error Status:', response.status);
+                    console.error('API Error Body:', errorData);
+                    const errorMsg = `抱歉，发生错误 (代码: ${response.status}): ${errorData.error?.message || '未知API错误'}`;
+                    chatHistory.push({ role: "model", parts: [{ text: errorMsg }] }); // 也将错误记录到历史
+                    return errorMsg;
+                }
+
+                const result = await response.json();
+                
+                let aiResponseText = "抱歉，我暂时无法回答。";
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    aiResponseText = result.candidates[0].content.parts[0].text;
+                } else if (result.promptFeedback && result.promptFeedback.blockReason) {
+                    aiResponseText = `无法生成回复，原因: ${result.promptFeedback.blockReason}`;
+                    if (result.promptFeedback.safetyRatings) {
+                         console.warn('Safety ratings:', result.promptFeedback.safetyRatings);
+                    }
+                } else {
+                    console.warn('Unexpected API response structure:', result);
+                }
+                
+                chatHistory.push({ role: "model", parts: [{ text: aiResponseText }] });
+                return aiResponseText;
+
+            } catch (error) {
+                console.error('Fetch Error:', error);
+                const networkErrorMsg = '抱歉，连接AI助手时遇到网络问题，请检查你的网络连接。';
+                // 不再将网络错误消息添加到 chatHistory ，避免污染对话记录
+                // chatHistory.push({ role: "model", parts: [{ text: networkErrorMsg }] }); 
+                return networkErrorMsg;
+            }
         }
-        
-        @keyframes fade-in-up {
-            from {
+
+
+        async function sendMessage() {
+            const messageText = messageInput.value.trim();
+            if (messageText === '') return;
+
+            displayMessage(messageText, 'user');
+            messageInput.value = '';
+            messageInput.disabled = true;
+            sendButton.disabled = true;
+            addTypingIndicator();
+
+            const botMessage = await sendMessageToAI(messageText); // 调用新的发送函数
+
+            removeTypingIndicator();
+            displayMessage(botMessage, 'model'); // AI 的回复角色是 'model'
+            
+            messageInput.disabled = false;
+            sendButton.disabled = false;
+            messageInput.focus();
+        }
+
+        function addTypingIndicator() {
+            const typingIndicator = document.createElement('div');
+            typingIndicator.id = 'typing-indicator';
+            typingIndicator.classList.add('flex', 'items-center', 'space-x-1', 'p-2');
+            typingIndicator.innerHTML = `
+                <div class="bg-gray-300 w-2 h-2 rounded-full animate-pulse"></div>
+                <div class="bg-gray-300 w-2 h-2 rounded-full animate-pulse animation-delay-200"></div>
+                <div class="bg-gray-300 w-2 h-2 rounded-full animate-pulse animation-delay-400"></div>
+                <span class="text-sm text-gray-500 ml-2">AI 正在输入...</span>
+            `;
+            messagesContainer.appendChild(typingIndicator);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+
+        sendButton.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // 初始问候
+        // setTimeout(() => {
+        //     displayMessage("你好！我是你的 AI 学习助手，有什么可以帮助你的吗？", 'bot');
+        // }, 500);
+
+        // 添加一些 CSS 动画
+        const style = document.createElement('style');
+        style.textContent = `
+            .animation-delay-200 { animation-delay: 0.2s; }
+            .animation-delay-400 { animation-delay: 0.4s; }
+            #ai-assistant-chatbox {
+                transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            }
+            #ai-assistant-chatbox.hidden {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px) scale(0.95);
+                pointer-events: none;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+             /*  消息气泡动画 */
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
             }
-        }
-        
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        .animate-float-delayed {
-            animation: float-delayed 8s ease-in-out infinite;
-        }
-        
-        .animate-float-slow {
-            animation: float-slow 10s ease-in-out infinite;
-        }
-        
-        .animate-blob {
-            animation: blob 7s infinite;
-        }
-        
-        .animate-fade-in-up {
-            animation: fade-in-up 0.8s ease-out forwards;
-        }
-        
-        .animation-delay-300 {
-            animation-delay: 300ms;
-        }
-        
-        .animation-delay-600 {
-            animation-delay: 600ms;
-        }
-        
-        .animation-delay-2000 {
-            animation-delay: 2s;
-        }
-        
-        .animation-delay-4000 {
-            animation-delay: 4s;
-        }
-        
-        /* 渐变文字效果 */
-        .gradient-text {
-            background: linear-gradient(45deg, #3B82F6, #8B5CF6, #EC4899);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-shift 3s ease infinite;
-        }
-        
-        @keyframes gradient-shift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        /* 玻璃态效果 */
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-        
-        /* 悬浮阴影效果 */
-        .hover-glow:hover {
-            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
-        }
-        
-        /* 脉冲效果 */
-        .pulse-slow {
-            animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-    </style>
+            #ai-assistant-messages > div {
+                animation: fadeIn 0.3s ease-out;
+            }
+        `;
+        document.head.appendChild(style);
+
+    </script>
+
+    <script src="assets/js/main.js"></script>
 </body>
 </html> 
